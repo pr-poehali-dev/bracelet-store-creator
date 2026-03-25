@@ -207,12 +207,12 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div className="grid grid-cols-3 gap-2">
               {[
-                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/32b37a02-16b1-4954-9ea6-25c0bc73fb60.jpg", alt: "Зелёный поток" },
-                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/4661170f-73e5-46c7-b14d-e3e81dbfaf1c.jpg", alt: "Красный огонь" },
-                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/ca875f95-9c34-474c-940f-b820ae8147a7.jpg", alt: "Розовый сад" },
-                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/08dca3fa-28a9-47a8-9cbe-1770f6ae2a28.jpg", alt: "Синяя волна" },
-                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/30dced3c-191a-41a9-a170-330ce1cba6ad.jpg", alt: "Фиолетовый свет" },
-                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/4c1645e5-432c-4e17-9e90-643457cba747.jpg", alt: "Чёрный щит" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/d15c46c4-060a-46a4-81b8-fb6b07d2cb39.jpg", alt: "Зелёный поток" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/21c46058-ce9d-4f0a-b33b-0498991d35d5.jpg", alt: "Красный огонь" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/125e1fc2-0214-4975-81d9-3f4b6c28a0db.jpg", alt: "Розовый сад" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/dd495df8-3789-492d-a752-01ddf6243ceb.jpg", alt: "Синяя волна" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/e74be91e-9919-49da-8d95-adf5e8dce9f6.jpg", alt: "Фиолетовый свет" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/db063a82-3dcd-47e2-b0b7-95a35aacf4fb.jpg", alt: "Чёрный щит" },
               ].map((c) => (
                 <img key={c.alt} src={c.src} alt={c.alt} className="w-full h-36 object-cover rounded-2xl shadow-md" />
               ))}
