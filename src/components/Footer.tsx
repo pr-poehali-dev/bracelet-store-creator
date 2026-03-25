@@ -74,7 +74,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm opacity-70">
                 <Icon name="MapPin" size={14} />
-                <span className="font-body">Москва, Россия</span>
+                <span className="font-body">Камышин, Пенза</span>
               </li>
             </ul>
           </div>
