@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { PRODUCTS, CATEGORIES } from "@/data/products";
+import type { Product } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import Icon from "@/components/ui/icon";
 import { toast } from "sonner";
+import OrderRequestModal from "@/components/OrderRequestModal";
+
+const REQUEST_IDS = [13, 14, 15, 16, 17];
 
 export default function Catalog() {
   const { addToCart } = useCart();
   const [activeCategory, setActiveCategory] = useState("all");
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"default" | "price_asc" | "price_desc">("default");
+  const [modalProduct, setModalProduct] = useState<Product | null>(null);
 
   const filtered = PRODUCTS
     .filter(p => activeCategory === "all" || p.category === activeCategory)
@@ -76,49 +81,72 @@ export default function Catalog() {
         <>
           <p className="text-sm text-muted-foreground font-body mb-5">{filtered.length} украшений</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {filtered.map(product => (
-              <div key={product.id} className="product-card bg-card rounded-2xl overflow-hidden border border-border">
-                <div className="relative">
-                  <img
-                    src={product.image}
-                    alt={product.name}
-                    className="w-full h-48 object-cover"
-                  />
-                  {product.badge && (
-                    <span className="absolute top-2 left-2 stone-badge bg-primary text-primary-foreground text-[10px]">
-                      {product.badge}
-                    </span>
-                  )}
-                  {!product.inStock && (
-                    <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
-                      <span className="stone-badge bg-muted text-muted-foreground">Нет в наличии</span>
+            {filtered.map(product => {
+              const isRequestOnly = REQUEST_IDS.includes(product.id);
+              return (
+                <div key={product.id} className="product-card bg-card rounded-2xl overflow-hidden border border-border">
+                  <div className="relative">
+                    <img
+                      src={product.image}
+                      alt={product.name}
+                      className="w-full h-48 object-cover"
+                    />
+                    {product.badge && (
+                      <span className="absolute top-2 left-2 stone-badge bg-primary text-primary-foreground text-[10px]">
+                        {product.badge}
+                      </span>
+                    )}
+                    {isRequestOnly && (
+                      <span className="absolute top-2 right-2 stone-badge bg-background/90 text-foreground text-[10px]">
+                        По запросу
+                      </span>
+                    )}
+                    {!product.inStock && (
+                      <div className="absolute inset-0 bg-background/60 flex items-center justify-center">
+                        <span className="stone-badge bg-muted text-muted-foreground">Нет в наличии</span>
+                      </div>
+                    )}
+                  </div>
+                  <div className="p-4">
+                    <h3 className="font-display text-lg leading-tight mb-1 text-foreground">{product.name}</h3>
+                    <p className="text-xs text-muted-foreground font-body mb-2">{product.stones.join(" • ")}</p>
+                    <p className="text-xs text-muted-foreground font-body leading-relaxed mb-4 line-clamp-2">{product.description}</p>
+                    <div className="flex items-center justify-between">
+                      <span className="text-lg font-display font-medium text-foreground">{product.price.toLocaleString()} ₽</span>
+                      {isRequestOnly ? (
+                        <button
+                          onClick={() => setModalProduct(product)}
+                          className="px-4 py-2 rounded-full text-xs font-body bg-secondary text-foreground hover:bg-secondary/70 transition-colors border border-border"
+                        >
+                          Оформить
+                        </button>
+                      ) : (
+                        <button
+                          onClick={() => { if (product.inStock) { addToCart(product); toast.success("Добавлено в корзину"); } }}
+                          disabled={!product.inStock}
+                          className={`px-4 py-2 rounded-full text-xs font-body transition-opacity ${
+                            product.inStock
+                              ? "bg-primary text-primary-foreground hover:opacity-90"
+                              : "bg-muted text-muted-foreground cursor-not-allowed"
+                          }`}
+                        >
+                          {product.inStock ? "В корзину" : "Нет"}
+                        </button>
+                      )}
                     </div>
-                  )}
-                </div>
-                <div className="p-4">
-                  <h3 className="font-display text-lg leading-tight mb-1 text-foreground">{product.name}</h3>
-                  <p className="text-xs text-muted-foreground font-body mb-2">{product.stones.join(" • ")}</p>
-                  <p className="text-xs text-muted-foreground font-body leading-relaxed mb-4 line-clamp-2">{product.description}</p>
-                  <div className="flex items-center justify-between">
-                    <span className="text-lg font-display font-medium text-foreground">{product.price.toLocaleString()} ₽</span>
-                    <button
-                      onClick={() => { if (product.inStock) { addToCart(product); toast.success("Добавлено в корзину"); } }}
-                      disabled={!product.inStock}
-                      className={`px-4 py-2 rounded-full text-xs font-body transition-opacity ${
-                        product.inStock
-                          ? "bg-primary text-primary-foreground hover:opacity-90"
-                          : "bg-muted text-muted-foreground cursor-not-allowed"
-                      }`}
-                    >
-                      {product.inStock ? "В корзину" : "Нет"}
-                    </button>
                   </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </>
       )}
+
+      <OrderRequestModal
+        product={modalProduct}
+        open={!!modalProduct}
+        onClose={() => setModalProduct(null)}
+      />
     </main>
   );
 }

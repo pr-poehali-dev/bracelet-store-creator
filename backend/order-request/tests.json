@@ -1,0 +1,27 @@
+{
+  "tests": [
+    {
+      "name": "POST order request",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "product_name": "Амулет «Щит»",
+        "product_id": 16,
+        "name": "Анна",
+        "phone": "+79001234567",
+        "birth_date": "1990-05-15",
+        "request_text": "Хочу защитный амулет от сглаза"
+      },
+      "expectedStatus": 200,
+      "expectedBody": { "ok": true },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "GET all requests",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "bodyMatcher": "partial"
+    }
+  ]
+}
