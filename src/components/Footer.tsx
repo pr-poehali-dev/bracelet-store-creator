@@ -14,11 +14,11 @@ export default function Footer() {
               Украшения из натуральных камней, созданные с любовью к природе и её красоте
             </p>
             <div className="flex gap-3 mt-5">
-              <a href="#" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity">
-                <Icon name="Instagram" size={16} />
-              </a>
-              <a href="#" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity">
+              <a href="http://t.me/amulet1819" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity" title="Telegram">
                 <Icon name="Send" size={16} />
+              </a>
+              <a href="https://vk.com/prostorenergii" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity" title="ВКонтакте">
+                <Icon name="Users" size={16} />
               </a>
             </div>
           </div>
