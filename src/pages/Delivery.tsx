@@ -117,9 +117,9 @@ export default function Delivery() {
         <h2 className="text-3xl font-display font-light text-foreground mb-3">Есть вопросы?</h2>
         <p className="text-muted-foreground font-body mb-5">Напишите нам — ответим в течение часа в рабочее время</p>
         <div className="flex flex-wrap justify-center gap-4">
-          <a href="mailto:hello@zemlyakamen.ru" className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity">
+          <a href="mailto:lida.tetyush@mail.ru" className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity">
             <Icon name="Mail" size={16} />
-            hello@zemlyakamen.ru
+            lida.tetyush@mail.ru
           </a>
           <a href="https://t.me/zemlyakamen" className="flex items-center gap-2 px-6 py-3 border border-border text-foreground rounded-full text-sm font-body hover:bg-secondary transition-colors">
             <Icon name="Send" size={16} />
