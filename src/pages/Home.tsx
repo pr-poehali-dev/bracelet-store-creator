@@ -207,7 +207,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-10 items-center">
             <div>
               <img
-                src="https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/67fefeb8-313c-44c6-8a41-46700271bb2a.jpg"
+                src="https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/4bd062f2-93a5-4ae7-b0b4-954b5938dfe8.jpg"
                 alt="Свечи из пчелиного воска"
                 className="w-full h-72 object-cover rounded-3xl shadow-xl"
               />
