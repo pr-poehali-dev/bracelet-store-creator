@@ -205,12 +205,17 @@ export default function Home() {
       <section className="py-16 bg-secondary/20">
         <div className="container mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div>
-              <img
-                src="https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/4bd062f2-93a5-4ae7-b0b4-954b5938dfe8.jpg"
-                alt="Свечи из пчелиного воска"
-                className="w-full h-72 object-cover rounded-3xl shadow-xl"
-              />
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/c9cd898e-6915-4d69-a363-6cbfae178839.jpg", alt: "Зелёный поток" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/95bd8272-c7fe-4942-a4b0-c77e7360eefc.jpg", alt: "Красный огонь" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/4bd062f2-93a5-4ae7-b0b4-954b5938dfe8.jpg", alt: "Розовый сад" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/10dc0fbb-efdc-4402-9a67-cd2d4ecf8c2e.jpg", alt: "Синяя волна" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/e2de8e13-993d-4cb7-ada9-38bf1aa14e83.jpg", alt: "Фиолетовый свет" },
+                { src: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/5d1e2878-5343-4972-bf0f-0be6e26c32fa.jpg", alt: "Чёрный щит" },
+              ].map((c) => (
+                <img key={c.alt} src={c.src} alt={c.alt} className="w-full h-36 object-cover rounded-2xl shadow-md" />
+              ))}
             </div>
             <div>
               <span className="stone-badge bg-secondary text-foreground/70 mb-4 inline-flex">
