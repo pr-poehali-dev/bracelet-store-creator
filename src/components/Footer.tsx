@@ -66,7 +66,11 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-2 text-sm opacity-70">
                 <Icon name="Phone" size={14} />
-                <span className="font-body">+7 (900) 000-00-00</span>
+                <span className="font-body">+7 (961) 072-86-42</span>
+              </li>
+              <li className="flex items-center gap-2 text-sm opacity-70">
+                <Icon name="Phone" size={14} />
+                <span className="font-body">+7 (961) 076-39-87</span>
               </li>
               <li className="flex items-center gap-2 text-sm opacity-70">
                 <Icon name="MapPin" size={14} />
