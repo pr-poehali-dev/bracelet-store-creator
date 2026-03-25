@@ -201,6 +201,38 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Свечи */}
+      <section className="py-16 bg-secondary/20">
+        <div className="container mx-auto px-4">
+          <div className="grid md:grid-cols-2 gap-10 items-center">
+            <div>
+              <img
+                src="https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/67fefeb8-313c-44c6-8a41-46700271bb2a.jpg"
+                alt="Свечи из пчелиного воска"
+                className="w-full h-72 object-cover rounded-3xl shadow-xl"
+              />
+            </div>
+            <div>
+              <span className="stone-badge bg-secondary text-foreground/70 mb-4 inline-flex">
+                🕯 Свечи из пчелиного воска
+              </span>
+              <h2 className="text-4xl font-display font-light text-foreground leading-tight mb-4">
+                Уют, тепло<br /><em>и возможность выдохнуть</em>
+              </h2>
+              <p className="text-muted-foreground font-body leading-relaxed mb-6">
+                Каждая свеча сделана из чистого пчелиного воска вручную. Горит долго, пахнет мёдом и создаёт атмосферу тишины — для тех, кто ценит моменты покоя.
+              </p>
+              <Link
+                to="/catalog?category=candle"
+                className="inline-flex items-center gap-2 px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity"
+              >
+                Смотреть свечи <Icon name="ArrowRight" size={16} />
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Камни */}
       <section className="py-16">
         <div className="container mx-auto px-4">
