@@ -8,7 +8,7 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-10">
           <div className="md:col-span-1">
             <h3 className="text-xl font-display font-light tracking-widest mb-4">
-              Земля & Камень
+              Душа природы
             </h3>
             <p className="text-sm opacity-60 font-body leading-relaxed">
               Украшения из натуральных камней, созданные с любовью к природе и её красоте
@@ -77,7 +77,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-background/10 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
-          <p className="text-xs opacity-40 font-body">© 2024 Земля & Камень. Все права защищены</p>
+          <p className="text-xs opacity-40 font-body">© 2024 Душа природы. Все права защищены</p>
           <p className="text-xs opacity-40 font-body">Натуральные камни • Ручная работа • С любовью</p>
         </div>
       </div>
