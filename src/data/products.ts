@@ -22,16 +22,7 @@ export const PRODUCTS: Product[] = [
     badge: "Хит",
     inStock: true,
   },
-  {
-    id: 2,
-    name: "Браслет «Тигровый глаз»",
-    price: 3200,
-    category: "bracelet",
-    stones: ["Тигровый глаз", "Гематит"],
-    description: "Сильный браслет-оберег из тигрового глаза для уверенности",
-    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/2e63867b-30e0-48ae-83b0-bd07c4373652.jpg",
-    inStock: true,
-  },
+
   {
     id: 3,
     name: "Браслет «Весенний сад»",
@@ -43,16 +34,7 @@ export const PRODUCTS: Product[] = [
     badge: "Новинка",
     inStock: true,
   },
-  {
-    id: 4,
-    name: "Браслет «Лазурит»",
-    price: 4100,
-    category: "bracelet",
-    stones: ["Лазурит", "Серебро"],
-    description: "Роскошный браслет с натуральным лазуритом для мудрости",
-    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/5531d923-45f0-4e8d-865e-0ffe21bf097f.jpg",
-    inStock: true,
-  },
+
   {
     id: 5,
     name: "Ожерелье «Малахит»",
