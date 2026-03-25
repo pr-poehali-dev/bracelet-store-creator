@@ -11,7 +11,7 @@ export default function Footer() {
               Душа природы
             </h3>
             <p className="text-sm opacity-60 font-body leading-relaxed">
-              Украшения из натуральных камней, созданные с любовью к природе и её красоте
+              Индивидуальные украшения из натуральных камней и свечи из чистого пчелиного воска — для тех, кто ценит искренность, комфорт и моменты тишины.
             </p>
             <div className="flex gap-3 mt-5">
               <a href="http://t.me/amulet1819" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity" title="Telegram">
