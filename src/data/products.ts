@@ -199,7 +199,7 @@ export const PRODUCTS: Product[] = [
     category: "candle",
     stones: [],
     description: "Подарочный набор: 2 свечи из пчелиного воска + браслет из натуральных камней на выбор",
-    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/67fefeb8-313c-44c6-8a41-46700271bb2a.jpg",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/6232fe3c-96b2-42a4-8e0d-1e2acb500f03.jpg",
     badge: "Подарок",
     inStock: true,
   },
