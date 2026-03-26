@@ -36,17 +36,6 @@ export const PRODUCTS: Product[] = [
   },
 
   {
-    id: 5,
-    name: "Ожерелье «Малахит»",
-    price: 5600,
-    category: "necklace",
-    stones: ["Малахит", "Медь"],
-    description: "Изящное ожерелье из натурального малахита в медной оправе",
-    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/2e63867b-30e0-48ae-83b0-bd07c4373652.jpg",
-    badge: "Хит",
-    inStock: true,
-  },
-  {
     id: 6,
     name: "Серьги «Полночный аметист»",
     price: 3800,
@@ -219,7 +208,6 @@ export const PRODUCTS: Product[] = [
 export const CATEGORIES = [
   { id: "all", label: "Всё" },
   { id: "bracelet", label: "Браслеты" },
-  { id: "necklace", label: "Ожерелья" },
   { id: "earrings", label: "Серьги" },
   { id: "ring", label: "Кольца" },
   { id: "candle", label: "Свечи" },
