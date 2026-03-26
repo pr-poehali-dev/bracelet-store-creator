@@ -203,6 +203,17 @@ export const PRODUCTS: Product[] = [
     badge: "Подарок",
     inStock: true,
   },
+  {
+    id: 22,
+    name: "Чокер «Алхимия»",
+    price: 4200,
+    category: "choker",
+    stones: ["Обсидиан", "Гематит", "Золотистый обсидиан"],
+    description: "Мистический чокер из обсидиана, гематита и золотистого обсидиана с подвеской «Всевидящее Око». Защита, заземление и притяжение силы",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/5ff3535c-b38c-45cb-863b-cc58f3a8e07f.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
 ];
 
 export const CATEGORIES = [
@@ -210,6 +221,7 @@ export const CATEGORIES = [
   { id: "bracelet", label: "Браслеты" },
   { id: "earrings", label: "Серьги" },
   { id: "ring", label: "Кольца" },
+  { id: "choker", label: "Чокеры" },
   { id: "candle", label: "Свечи" },
 ];
 
