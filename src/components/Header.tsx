@@ -42,6 +42,16 @@ export default function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <a
+            href="https://t.me/DushaBraslet_bot"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="hidden md:flex p-2 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"
+            title="Telegram-бот"
+          >
+            <Icon name="Send" size={20} />
+          </a>
+
           <Link
             to="/account"
             className="p-2 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground"

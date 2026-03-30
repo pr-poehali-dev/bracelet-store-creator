@@ -14,7 +14,7 @@ export default function Footer() {
               Индивидуальные украшения из натуральных камней и свечи из чистого пчелиного воска — для тех, кто ценит искренность, комфорт и моменты тишины.
             </p>
             <div className="flex gap-3 mt-5">
-              <a href="http://t.me/amulet1819" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity" title="Telegram">
+              <a href="https://t.me/DushaBraslet_bot" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity" title="Telegram-бот">
                 <Icon name="Send" size={16} />
               </a>
               <a href="https://vk.com/prostorenergii" target="_blank" rel="noopener noreferrer" className="w-9 h-9 rounded-full border border-background/20 flex items-center justify-center opacity-60 hover:opacity-100 transition-opacity" title="ВКонтакте">
