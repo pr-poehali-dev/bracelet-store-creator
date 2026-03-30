@@ -1,7 +1,6 @@
 import json
 import os
 import urllib.request
-import urllib.parse
 import psycopg2
 
 
@@ -12,19 +11,51 @@ HEADERS = {
 }
 
 
-def send_telegram(message: str):
+def tg_request(token: str, method: str, payload: dict) -> dict:
+    url = f"https://api.telegram.org/bot{token}/{method}"
+    data = json.dumps(payload, ensure_ascii=False).encode()
+    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        return json.loads(resp.read())
+
+
+def send_order_notification(order_id: int, name: str, phone: str, comment: str, items: list, total_price: int) -> int | None:
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
     if not token or not chat_id:
-        return
-    url = f"https://api.telegram.org/bot{token}/sendMessage"
-    data = json.dumps({"chat_id": chat_id, "text": message, "parse_mode": "HTML"}).encode()
-    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
-    urllib.request.urlopen(req, timeout=10)
+        return None
+
+    items_text = "\n".join(
+        f"  • {i.get('name', '?')} × {i.get('quantity', 1)} — {i.get('price', 0) * i.get('quantity', 1):,} ₽"
+        for i in items
+    )
+    msg = (
+        f"🛒 <b>Новый заказ #{order_id}</b>\n\n"
+        f"👤 <b>Имя:</b> {name}\n"
+        f"📞 <b>Телефон:</b> {phone}\n\n"
+        f"<b>Состав заказа:</b>\n{items_text}\n\n"
+        f"💰 <b>Итого: {total_price:,} ₽</b>"
+        + (f"\n\n💬 <b>Комментарий:</b> {comment}" if comment else "")
+    )
+
+    keyboard = {
+        "inline_keyboard": [[
+            {"text": "✅ Подтвердить", "callback_data": f"confirm_{order_id}"},
+            {"text": "❌ Отменить", "callback_data": f"cancel_{order_id}"},
+        ]]
+    }
+
+    result = tg_request(token, "sendMessage", {
+        "chat_id": chat_id,
+        "text": msg,
+        "parse_mode": "HTML",
+        "reply_markup": keyboard,
+    })
+    return result.get("result", {}).get("message_id")
 
 
 def handler(event: dict, context) -> dict:
-    """Оформление заказа из корзины — сохранение в БД и уведомление в Telegram. GET — список всех заказов."""
+    """Оформление заказа из корзины — сохранение в БД и уведомление в Telegram с кнопками. GET — список всех заказов."""
     if event.get("httpMethod") == "OPTIONS":
         return {"statusCode": 200, "headers": HEADERS, "body": ""}
 
@@ -32,7 +63,7 @@ def handler(event: dict, context) -> dict:
         conn = psycopg2.connect(os.environ["DATABASE_URL"])
         cur = conn.cursor()
         cur.execute(
-            "SELECT id, name, phone, comment, items, total_price, created_at "
+            "SELECT id, name, phone, comment, items, total_price, status, created_at "
             "FROM t_p51841735_bracelet_store_creat.cart_orders ORDER BY created_at DESC"
         )
         rows = cur.fetchall()
@@ -46,7 +77,8 @@ def handler(event: dict, context) -> dict:
                 "comment": r[3],
                 "items": r[4] if isinstance(r[4], list) else json.loads(r[4] or "[]"),
                 "total_price": r[5],
-                "created_at": r[6].isoformat() if r[6] else None,
+                "status": r[6],
+                "created_at": r[7].isoformat() if r[7] else None,
             }
             for r in rows
         ]
@@ -75,22 +107,18 @@ def handler(event: dict, context) -> dict:
     )
     new_id = cur.fetchone()[0]
     conn.commit()
+
+    message_id = send_order_notification(new_id, name, phone, comment, items, total_price)
+
+    if message_id:
+        cur.execute(
+            "UPDATE t_p51841735_bracelet_store_creat.cart_orders SET tg_message_id = %s WHERE id = %s",
+            (message_id, new_id),
+        )
+        conn.commit()
+
     cur.close()
     conn.close()
-
-    items_text = "\n".join(
-        f"  • {i.get('name', '?')} × {i.get('quantity', 1)} — {i.get('price', 0) * i.get('quantity', 1):,} ₽"
-        for i in items
-    )
-    msg = (
-        f"🛒 <b>Новый заказ #{new_id}</b>\n\n"
-        f"👤 <b>Имя:</b> {name}\n"
-        f"📞 <b>Телефон:</b> {phone}\n\n"
-        f"<b>Состав заказа:</b>\n{items_text}\n\n"
-        f"💰 <b>Итого: {total_price:,} ₽</b>"
-        + (f"\n\n💬 <b>Комментарий:</b> {comment}" if comment else "")
-    )
-    send_telegram(msg)
 
     return {
         "statusCode": 200,

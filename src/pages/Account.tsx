@@ -22,8 +22,15 @@ interface CartOrder {
   comment: string;
   items: { name: string; quantity: number; price: number }[];
   total_price: number;
+  status: string;
   created_at: string;
 }
+
+const STATUS_CONFIG: Record<string, { label: string; className: string }> = {
+  new:       { label: "Новый",       className: "bg-blue-100 text-blue-700" },
+  confirmed: { label: "Подтверждён", className: "bg-green-100 text-green-700" },
+  cancelled: { label: "Отменён",     className: "bg-red-100 text-red-600" },
+};
 
 export default function Account() {
   const { savedDesigns, deleteDesign } = useCart();
@@ -246,8 +253,18 @@ export default function Account() {
                     <div key={order.id} className="bg-card border border-border rounded-2xl p-5">
                       <div className="flex items-start justify-between mb-3">
                         <div>
-                          <p className="font-display text-lg text-foreground">Заказ #{order.id}</p>
-                          <p className="text-xs font-body text-muted-foreground mt-0.5">
+                          <div className="flex items-center gap-2 mb-0.5">
+                            <p className="font-display text-lg text-foreground">Заказ #{order.id}</p>
+                            {(() => {
+                              const s = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.new;
+                              return (
+                                <span className={`text-xs font-body px-2 py-0.5 rounded-full ${s.className}`}>
+                                  {s.label}
+                                </span>
+                              );
+                            })()}
+                          </div>
+                          <p className="text-xs font-body text-muted-foreground">
                             {new Date(order.created_at).toLocaleString("ru-RU", {
                               day: "numeric", month: "long", year: "numeric",
                               hour: "2-digit", minute: "2-digit",
