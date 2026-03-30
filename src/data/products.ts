@@ -254,6 +254,18 @@ export const PRODUCTS: Product[] = [
     inStock: true,
   },
   {
+    id: 23,
+    name: "Витая свеча с травами",
+    price: 360,
+    category: "candle",
+    stones: [],
+    description: "Яркая витая свеча ручной работы, украшенная сушёными травами и блёстками. Выбор цвета при заказе. 3 свечи — 900 ₽",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/78c90c54-abcf-47ee-b0e5-6adaafd45c52.jpeg",
+    badge: "3 за 900 ₽",
+    inStock: true,
+  },
+
+  {
     id: 105,
     name: "Комплект «Берилловый туман»",
     price: 3100,
