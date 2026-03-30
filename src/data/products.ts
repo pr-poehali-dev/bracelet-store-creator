@@ -254,6 +254,30 @@ export const PRODUCTS: Product[] = [
     inStock: true,
   },
   {
+    id: 105,
+    name: "Комплект «Берилловый туман»",
+    price: 3100,
+    category: "set",
+    stones: ["Берилл", "Розовый кварц", "Горный хрусталь"],
+    description: "Комплект браслет + чокер из берилла, розового кварца и горного хрусталя на серебристой цепочке. Цена по акции",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/bf11240e-eaf1-45ad-9c38-fc4c5caa5ee1.jpeg",
+    badge: "Акция",
+    inStock: true,
+  },
+
+  {
+    id: 106,
+    name: "Комплект «Хрустальная чистота»",
+    price: 3600,
+    category: "set",
+    stones: ["Горный хрусталь"],
+    description: "Комплект браслет + чокер из натурального горного хрусталя с серебристыми разделителями. Цена по акции",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/115ad491-2e7a-4271-94ca-b86de902f018.jpeg",
+    badge: "Акция",
+    inStock: true,
+  },
+
+  {
     id: 22,
     name: "Чокер «Алхимия»",
     price: 4200,
@@ -273,6 +297,7 @@ export const CATEGORIES = [
   { id: "ring", label: "Кольца" },
   { id: "choker", label: "Чокеры" },
   { id: "candle", label: "Свечи" },
+  { id: "set", label: "Комплекты" },
 ];
 
 export const STONES_CATALOG = [
