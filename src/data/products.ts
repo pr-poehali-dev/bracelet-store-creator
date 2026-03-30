@@ -12,6 +12,54 @@ export interface Product {
 
 export const PRODUCTS: Product[] = [
   {
+    id: 101,
+    name: "Браслет «Огонь и лёд»",
+    price: 960,
+    category: "bracelet",
+    stones: ["Сердолик", "Аквамарин", "Розовый кварц", "Горный хрусталь", "Аметист"],
+    description: "Яркий браслет на шнурке из сердолика, аквамарина и розового кварца с кристаллами горного хрусталя",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/89d09d88-c15a-49ed-a422-831eb8e22b99.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
+    id: 102,
+    name: "Браслет «Морская дымка»",
+    price: 1090,
+    category: "bracelet",
+    stones: ["Аквамарин", "Розовый кварц", "Жемчуг"],
+    description: "Нежный браслет из крошки аквамарина и розового кварца с барочной жемчужиной и золотистыми акцентами",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/acaed87e-99db-4b55-8e55-2060f431458c.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
+    id: 103,
+    name: "Браслет «Берег»",
+    price: 1190,
+    category: "bracelet",
+    stones: ["Аквамарин", "Жемчуг"],
+    description: "Лёгкий браслет из натуральной крошки аквамарина с белыми жемчужинами и серебристыми разделителями",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/e51f596b-75f6-4ff1-bb62-12b74527edf3.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
+    id: 104,
+    name: "Браслет «Серебряное сердце»",
+    price: 1290,
+    category: "bracelet",
+    stones: ["Розовый кварц", "Аквамарин"],
+    description: "Романтичный браслет из розового кварца и аквамарина с подвеской-сердцем из серебристого металла",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/cef77e18-49c3-4f55-a4ca-d729c9753119.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
     id: 100,
     name: "Браслет «Розовый сад»",
     price: 760,
