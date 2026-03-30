@@ -12,6 +12,18 @@ export interface Product {
 
 export const PRODUCTS: Product[] = [
   {
+    id: 100,
+    name: "Браслет «Розовый сад»",
+    price: 760,
+    category: "bracelet",
+    stones: ["Родонит", "Горный хрусталь", "Розовый кварц"],
+    description: "Браслет из родонита и горного хрусталя с золотистыми акцентами и резными цветочными бусинами",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/97fdcd62-f892-4af1-8ad8-cbaf8fafa86c.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
     id: 1,
     name: "Браслет «Аметистовый туман»",
     price: 990,
