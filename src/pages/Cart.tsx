@@ -1,10 +1,13 @@
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useCart } from "@/context/CartContext";
 import Icon from "@/components/ui/icon";
 import { toast } from "sonner";
+import CartOrderModal from "@/components/CartOrderModal";
 
 export default function Cart() {
   const { items, removeFromCart, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
+  const [orderOpen, setOrderOpen] = useState(false);
 
   if (items.length === 0) {
     return (
@@ -109,7 +112,7 @@ export default function Cart() {
             )}
 
             <button
-              onClick={() => toast.info("Оформление заказа — в разработке")}
+              onClick={() => setOrderOpen(true)}
               className="w-full py-3 bg-primary text-primary-foreground rounded-full text-sm font-body font-medium hover:opacity-90 transition-opacity mb-3"
             >
               Оформить заказ
@@ -123,6 +126,17 @@ export default function Cart() {
           </div>
         </div>
       </div>
+
+      <CartOrderModal
+        open={orderOpen}
+        onClose={() => setOrderOpen(false)}
+        items={items}
+        totalPrice={totalPrice}
+        onSuccess={() => {
+          clearCart();
+          toast.success("Заказ оформлен! Мастер скоро свяжется с вами");
+        }}
+      />
     </main>
   );
 }

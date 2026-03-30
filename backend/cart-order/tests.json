@@ -1,0 +1,22 @@
+{
+  "tests": [
+    {
+      "name": "POST cart order",
+      "method": "POST",
+      "path": "/",
+      "body": {
+        "name": "Анна",
+        "phone": "+79001234567",
+        "comment": "Хочу доставку до двери",
+        "items": [
+          {"name": "Браслет «Лунный свет»", "quantity": 1, "price": 2500},
+          {"name": "Браслет «Нефрит»", "quantity": 2, "price": 1800}
+        ],
+        "total_price": 6100
+      },
+      "expectedStatus": 200,
+      "expectedBody": { "ok": true },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

@@ -1,0 +1,75 @@
+import json
+import os
+import urllib.request
+import urllib.parse
+import psycopg2
+
+
+HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type",
+}
+
+
+def send_telegram(message: str):
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
+    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
+    if not token or not chat_id:
+        return
+    url = f"https://api.telegram.org/bot{token}/sendMessage"
+    data = json.dumps({"chat_id": chat_id, "text": message, "parse_mode": "HTML"}).encode()
+    req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
+    urllib.request.urlopen(req, timeout=10)
+
+
+def handler(event: dict, context) -> dict:
+    """Оформление заказа из корзины — сохранение в БД и уведомление в Telegram."""
+    if event.get("httpMethod") == "OPTIONS":
+        return {"statusCode": 200, "headers": HEADERS, "body": ""}
+
+    body = json.loads(event.get("body") or "{}")
+    name = body.get("name", "").strip()
+    phone = body.get("phone", "").strip()
+    comment = body.get("comment", "").strip()
+    items = body.get("items", [])
+    total_price = body.get("total_price", 0)
+
+    if not name or not phone or not items:
+        return {
+            "statusCode": 400,
+            "headers": HEADERS,
+            "body": json.dumps({"error": "Заполните имя, телефон и добавьте товары"}, ensure_ascii=False),
+        }
+
+    conn = psycopg2.connect(os.environ["DATABASE_URL"])
+    cur = conn.cursor()
+    cur.execute(
+        "INSERT INTO t_p51841735_bracelet_store_creat.cart_orders "
+        "(name, phone, comment, items, total_price) VALUES (%s, %s, %s, %s, %s) RETURNING id",
+        (name, phone, comment, json.dumps(items, ensure_ascii=False), total_price),
+    )
+    new_id = cur.fetchone()[0]
+    conn.commit()
+    cur.close()
+    conn.close()
+
+    items_text = "\n".join(
+        f"  • {i.get('name', '?')} × {i.get('quantity', 1)} — {i.get('price', 0) * i.get('quantity', 1):,} ₽"
+        for i in items
+    )
+    msg = (
+        f"🛒 <b>Новый заказ #{new_id}</b>\n\n"
+        f"👤 <b>Имя:</b> {name}\n"
+        f"📞 <b>Телефон:</b> {phone}\n\n"
+        f"<b>Состав заказа:</b>\n{items_text}\n\n"
+        f"💰 <b>Итого: {total_price:,} ₽</b>"
+        + (f"\n\n💬 <b>Комментарий:</b> {comment}" if comment else "")
+    )
+    send_telegram(msg)
+
+    return {
+        "statusCode": 200,
+        "headers": HEADERS,
+        "body": json.dumps({"ok": True, "id": new_id}, ensure_ascii=False),
+    }
