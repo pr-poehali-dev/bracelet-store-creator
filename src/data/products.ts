@@ -38,7 +38,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 6,
     name: "Серьги «Полночный аметист»",
-    price: 3800,
+    price: 790,
     category: "earrings",
     stones: ["Аметист"],
     description: "Серьги с крупным аметистом в графитовой оправе — мощная энергетика, защита и глубокая интуиция",
@@ -48,7 +48,7 @@ export const PRODUCTS: Product[] = [
   {
     id: 21,
     name: "Серьги «Солнечный обсидиан»",
-    price: 3200,
+    price: 660,
     category: "earrings",
     stones: ["Обсидиан", "Цитрин"],
     description: "Серьги с чёрным обсидианом и цитрином в золотой оправе — защита с тёплой солнечной энергией",
@@ -66,17 +66,7 @@ export const PRODUCTS: Product[] = [
     image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/09d15772-7d13-4053-a3b0-1d937033e644.jpeg",
     inStock: true,
   },
-  {
-    id: 8,
-    name: "Кольцо «Опал»",
-    price: 4900,
-    category: "ring",
-    stones: ["Опал"],
-    description: "Нежное кольцо с радужным опалом ручной работы",
-    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/2e63867b-30e0-48ae-83b0-bd07c4373652.jpg",
-    badge: "Новинка",
-    inStock: true,
-  },
+
   {
     id: 9,
     name: "Свеча «Зелёный поток»",
