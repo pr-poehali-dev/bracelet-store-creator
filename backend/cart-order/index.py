@@ -24,9 +24,33 @@ def send_telegram(message: str):
 
 
 def handler(event: dict, context) -> dict:
-    """Оформление заказа из корзины — сохранение в БД и уведомление в Telegram."""
+    """Оформление заказа из корзины — сохранение в БД и уведомление в Telegram. GET — список всех заказов."""
     if event.get("httpMethod") == "OPTIONS":
         return {"statusCode": 200, "headers": HEADERS, "body": ""}
+
+    if event.get("httpMethod") == "GET":
+        conn = psycopg2.connect(os.environ["DATABASE_URL"])
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT id, name, phone, comment, items, total_price, created_at "
+            "FROM t_p51841735_bracelet_store_creat.cart_orders ORDER BY created_at DESC"
+        )
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+        result = [
+            {
+                "id": r[0],
+                "name": r[1],
+                "phone": r[2],
+                "comment": r[3],
+                "items": r[4] if isinstance(r[4], list) else json.loads(r[4] or "[]"),
+                "total_price": r[5],
+                "created_at": r[6].isoformat() if r[6] else None,
+            }
+            for r in rows
+        ]
+        return {"statusCode": 200, "headers": HEADERS, "body": json.dumps(result, ensure_ascii=False)}
 
     body = json.loads(event.get("body") or "{}")
     name = body.get("name", "").strip()
