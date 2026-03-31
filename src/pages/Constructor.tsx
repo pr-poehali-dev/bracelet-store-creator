@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { STONES_CATALOG } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { CustomDesign } from "@/context/CartContext";
@@ -32,6 +32,7 @@ const BASE_PRICE_DEFAULT = 400;
 export default function Constructor() {
   const { saveDesign, savedDesigns, deleteDesign, addDesignToCart } = useCart();
   const [selectedStones, setSelectedStones] = useState<string[]>([]);
+  const stoneKeys = useRef<string[]>([]);
   const [braceletSize, setBraceletSize] = useState(17);
   const [clasp, setClasp] = useState("elastic");
   const [charm, setCharm] = useState("none");
@@ -52,18 +53,24 @@ export default function Constructor() {
       toast.error("Максимум 20 камней");
       return;
     }
+    stoneKeys.current = [...stoneKeys.current, `${stoneId}_${Date.now()}`];
     setSelectedStones(prev => [...prev, stoneId]);
   };
 
   const removeLastStone = () => {
+    stoneKeys.current = stoneKeys.current.slice(0, -1);
     setSelectedStones(prev => prev.slice(0, -1));
   };
 
   const removeStoneAt = (idx: number) => {
+    stoneKeys.current = stoneKeys.current.filter((_, i) => i !== idx);
     setSelectedStones(prev => prev.filter((_, i) => i !== idx));
   };
 
-  const clearAll = () => setSelectedStones([]);
+  const clearAll = () => {
+    stoneKeys.current = [];
+    setSelectedStones([]);
+  };
 
   const buildDesign = (): CustomDesign => ({
     id: Date.now().toString(),
@@ -274,12 +281,13 @@ export default function Constructor() {
                         const x = CENTER + RING_R * Math.cos(a) - BEAD_R;
                         const y = CENTER + RING_R * Math.sin(a) - BEAD_R;
                         const stone = stoneDetails(stoneId);
+                        const uniqueKey = stoneKeys.current[idx] ?? `${stoneId}_${idx}`;
                         return (
                           <div
-                            key={idx}
+                            key={uniqueKey}
                             title={stone?.name}
                             onClick={() => removeStoneAt(idx)}
-                            className="absolute cursor-pointer group"
+                            className="absolute cursor-pointer group stone-appear"
                             style={{ left: x, top: y, width: BEAD_R * 2, height: BEAD_R * 2 }}
                           >
                             <StoneGem stoneId={stoneId} size={BEAD_R * 2} className="rounded-full" />
