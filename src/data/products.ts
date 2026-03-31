@@ -300,6 +300,62 @@ export const PRODUCTS: Product[] = [
     badge: "Новинка",
     inStock: true,
   },
+
+  {
+    id: 200,
+    name: "Подарочный сертификат на 500 ₽",
+    price: 500,
+    category: "certificate",
+    stones: [],
+    description: "Подарочный сертификат в наш магазин украшений ручной работы. Действует 1 год. Можно использовать на любой товар или браслет из конструктора.",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/988cd446-5f19-4dfe-a3ae-69025f0416c2.jpg",
+    badge: "Подарок",
+    inStock: true,
+  },
+  {
+    id: 201,
+    name: "Подарочный сертификат на 1 000 ₽",
+    price: 1000,
+    category: "certificate",
+    stones: [],
+    description: "Подарочный сертификат в наш магазин украшений ручной работы. Действует 1 год. Можно использовать на любой товар или браслет из конструктора.",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/988cd446-5f19-4dfe-a3ae-69025f0416c2.jpg",
+    badge: "Подарок",
+    inStock: true,
+  },
+  {
+    id: 202,
+    name: "Подарочный сертификат на 2 000 ₽",
+    price: 2000,
+    category: "certificate",
+    stones: [],
+    description: "Подарочный сертификат в наш магазин украшений ручной работы. Действует 1 год. Можно использовать на любой товар или браслет из конструктора.",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/988cd446-5f19-4dfe-a3ae-69025f0416c2.jpg",
+    badge: "Хит",
+    inStock: true,
+  },
+  {
+    id: 203,
+    name: "Подарочный сертификат на 3 000 ₽",
+    price: 3000,
+    category: "certificate",
+    stones: [],
+    description: "Подарочный сертификат в наш магазин украшений ручной работы. Действует 1 год. Можно использовать на любой товар или браслет из конструктора.",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/988cd446-5f19-4dfe-a3ae-69025f0416c2.jpg",
+    badge: "Подарок",
+    inStock: true,
+  },
+  {
+    id: 204,
+    name: "Подарочный сертификат на 5 000 ₽",
+    price: 5000,
+    category: "certificate",
+    stones: [],
+    description: "Подарочный сертификат в наш магазин украшений ручной работы. Действует 1 год. Включает бесплатную доставку на любой заказ.",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/files/988cd446-5f19-4dfe-a3ae-69025f0416c2.jpg",
+    badge: "Премиум",
+    inStock: true,
+  },
 ];
 
 export const CATEGORIES = [
@@ -310,6 +366,7 @@ export const CATEGORIES = [
   { id: "choker", label: "Чокеры" },
   { id: "candle", label: "Свечи" },
   { id: "set", label: "Комплекты" },
+  { id: "certificate", label: "Сертификаты 🎁" },
 ];
 
 export const STONES_CATALOG = [

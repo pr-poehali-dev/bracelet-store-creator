@@ -109,7 +109,9 @@ export default function Catalog() {
                   </div>
                   <div className="p-4">
                     <h3 className="font-display text-lg leading-tight mb-1 text-foreground">{product.name}</h3>
-                    <p className="text-xs text-muted-foreground font-body mb-2">{product.stones.join(" • ")}</p>
+                    {product.category !== "certificate" && (
+                      <p className="text-xs text-muted-foreground font-body mb-2">{product.stones.join(" • ")}</p>
+                    )}
                     <p className="text-xs text-muted-foreground font-body leading-relaxed mb-4 line-clamp-2">{product.description}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-lg font-display font-medium text-foreground">{product.price.toLocaleString()} ₽</span>
