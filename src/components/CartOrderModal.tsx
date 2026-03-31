@@ -2,18 +2,19 @@ import { useState } from "react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { toast } from "sonner";
 import Icon from "@/components/ui/icon";
-import type { CartItem } from "@/context/CartContext";
+import type { CartItem, CustomDesign } from "@/context/CartContext";
 import func2url from "../../backend/func2url.json";
 
 interface Props {
   open: boolean;
   onClose: () => void;
   items: CartItem[];
+  cartDesigns: CustomDesign[];
   totalPrice: number;
   onSuccess: () => void;
 }
 
-export default function CartOrderModal({ open, onClose, items, totalPrice, onSuccess }: Props) {
+export default function CartOrderModal({ open, onClose, items, cartDesigns, totalPrice, onSuccess }: Props) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [comment, setComment] = useState("");
@@ -45,6 +46,13 @@ export default function CartOrderModal({ open, onClose, items, totalPrice, onSuc
             name: product.name,
             quantity,
             price: product.price,
+          })),
+          custom_designs: cartDesigns.map(d => ({
+            name: d.name,
+            stones_count: d.stones.length,
+            size: d.size,
+            clasp: d.clasp,
+            price: d.price,
           })),
           total_price: totalPrice,
         }),
@@ -90,11 +98,17 @@ export default function CartOrderModal({ open, onClose, items, totalPrice, onSuc
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-4 pt-2">
-            <div className="p-3 bg-secondary/40 rounded-xl space-y-1.5 max-h-36 overflow-y-auto">
+            <div className="p-3 bg-secondary/40 rounded-xl space-y-1.5 max-h-48 overflow-y-auto">
               {items.map(({ product, quantity }) => (
                 <div key={product.id} className="flex justify-between text-sm font-body">
                   <span className="text-muted-foreground truncate mr-2">{product.name} × {quantity}</span>
                   <span className="text-foreground whitespace-nowrap">{(product.price * quantity).toLocaleString()} ₽</span>
+                </div>
+              ))}
+              {cartDesigns.map(d => (
+                <div key={d.id} className="flex justify-between text-sm font-body">
+                  <span className="text-muted-foreground truncate mr-2">✦ {d.name} ({d.stones.length} камней, {d.size} см)</span>
+                  <span className="text-foreground whitespace-nowrap">{d.price.toLocaleString()} ₽</span>
                 </div>
               ))}
               <div className="border-t border-border pt-1.5 flex justify-between font-body">

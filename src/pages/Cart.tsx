@@ -155,6 +155,7 @@ export default function Cart() {
         open={orderOpen}
         onClose={() => setOrderOpen(false)}
         items={items}
+        cartDesigns={cartDesigns}
         totalPrice={totalPrice}
         onSuccess={() => {
           clearCart();
