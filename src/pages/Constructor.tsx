@@ -14,7 +14,8 @@ const CLASP_TYPES = [
 
 const SIZES = [15, 16, 17, 18, 19, 20, 21];
 
-const BASE_PRICE = 800;
+const BASE_PRICE_ELASTIC = 100;
+const BASE_PRICE_DEFAULT = 400;
 
 export default function Constructor() {
   const { saveDesign, savedDesigns, deleteDesign } = useCart();
@@ -25,11 +26,12 @@ export default function Constructor() {
   const [tab, setTab] = useState<"create" | "saved">("create");
   const [shareLink, setShareLink] = useState<string | null>(null);
 
+  const basePrice = clasp === "elastic" ? BASE_PRICE_ELASTIC : BASE_PRICE_DEFAULT;
   const stonesPrice = selectedStones.reduce((sum, id) => {
     const stone = STONES_CATALOG.find(s => s.id === id);
     return sum + (stone?.price ?? 56);
   }, 0);
-  const totalPrice = BASE_PRICE + stonesPrice;
+  const totalPrice = basePrice + stonesPrice;
 
   const addStone = (stoneId: string) => {
     if (selectedStones.length >= 20) {
@@ -234,7 +236,7 @@ export default function Constructor() {
               <div className="space-y-3 mb-5">
                 <div className="flex justify-between text-sm font-body">
                   <span className="text-muted-foreground">Основа</span>
-                  <span className="text-foreground">{BASE_PRICE.toLocaleString()} ₽</span>
+                  <span className="text-foreground">{basePrice.toLocaleString()} ₽</span>
                 </div>
                 {selectedStones.length > 0 && (
                   <div className="flex justify-between text-sm font-body">
