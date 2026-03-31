@@ -6,10 +6,10 @@ import Icon from "@/components/ui/icon";
 import { toast } from "sonner";
 
 const CLASP_TYPES = [
-  { id: "elastic", label: "Резинка" },
-  { id: "lobster", label: "Карабин" },
-  { id: "magnetic", label: "Магнит" },
-  { id: "toggle", label: "Тоггл" },
+  { id: "elastic", label: "Резинка", price: 100 },
+  { id: "lobster", label: "Карабин", price: 400 },
+  { id: "magnetic", label: "Магнит", price: 400 },
+  { id: "toggle", label: "Тоггл", price: 400 },
 ];
 
 const SIZES = [15, 16, 17, 18, 19, 20, 21];
@@ -214,13 +214,14 @@ export default function Constructor() {
                     <button
                       key={c.id}
                       onClick={() => setClasp(c.id)}
-                      className={`py-2.5 px-3 rounded-xl text-sm font-body transition-colors ${
+                      className={`py-2.5 px-3 rounded-xl text-sm font-body transition-colors flex flex-col items-center gap-0.5 ${
                         clasp === c.id
                           ? "bg-primary text-primary-foreground"
                           : "bg-secondary text-foreground hover:bg-secondary/70"
                       }`}
                     >
-                      {c.label}
+                      <span>{c.label}</span>
+                      <span className={`text-[11px] font-medium ${clasp === c.id ? "text-primary-foreground/80" : "text-muted-foreground"}`}>{c.price} ₽</span>
                     </button>
                   ))}
                 </div>
