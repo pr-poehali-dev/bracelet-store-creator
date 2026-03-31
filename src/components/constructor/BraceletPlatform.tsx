@@ -187,7 +187,7 @@ export default function BraceletPlatform({
           {charmDef && charmDef.id !== "none" && (
             <div
               title={charmDef.label}
-              className="absolute flex flex-col items-center stone-appear"
+              className="absolute flex flex-col items-center charm-pendant"
               style={{ left: CENTER - 22, top: SIZE - 14 }}
             >
               {/* Цепочка */}
