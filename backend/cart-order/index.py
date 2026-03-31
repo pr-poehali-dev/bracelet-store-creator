@@ -2,6 +2,9 @@ import json
 import os
 import urllib.request
 import psycopg2
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 
 
 HEADERS = {
@@ -17,6 +20,55 @@ def tg_request(token: str, method: str, payload: dict) -> dict:
     req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
     with urllib.request.urlopen(req, timeout=10) as resp:
         return json.loads(resp.read())
+
+
+def send_email_notification(order_id: int, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> bool:
+    smtp_password = os.environ.get("MAIL_SMTP_PASSWORD", "")
+    if not smtp_password:
+        return False
+
+    sender = "Lida.tetyush@mail.ru"
+    recipient = "Lida.tetyush@mail.ru"
+
+    items_html = "".join(
+        f"<li>{i.get('name', '?')} × {i.get('quantity', 1)} — {i.get('price', 0) * i.get('quantity', 1):,} ₽</li>"
+        for i in items
+    )
+    designs_html = ""
+    if custom_designs:
+        lines = "".join(
+            f"<li>✦ {d.get('name', 'Браслет')} — {d.get('stones_count', '?')} камней, размер {d.get('size', '?')} см, застёжка: {d.get('clasp', '?')} — {d.get('price', 0):,} ₽</li>"
+            for d in custom_designs
+        )
+        designs_html = f"<p><b>Браслеты из конструктора:</b></p><ul>{lines}</ul>"
+
+    html = f"""
+    <div style="font-family: Arial, sans-serif; max-width: 600px; padding: 20px;">
+        <h2 style="color: #7a5c3a;">🛒 Новый заказ #{order_id}</h2>
+        <p><b>Имя:</b> {name}</p>
+        <p><b>Телефон:</b> <a href="tel:{phone}">{phone}</a></p>
+        {f'<p><b>Комментарий:</b> {comment}</p>' if comment else ''}
+        {'<p><b>Товары из каталога:</b></p><ul>' + items_html + '</ul>' if items_html else ''}
+        {designs_html}
+        <p style="font-size: 18px;"><b>Итого: {total_price:,} ₽</b></p>
+        <hr style="border-color: #e0d0c0;">
+        <p style="color: #999; font-size: 12px;">Украшения ручной работы</p>
+    </div>
+    """
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"Новый заказ #{order_id} — {name}, {total_price:,} ₽"
+    msg["From"] = sender
+    msg["To"] = recipient
+    msg.attach(MIMEText(html, "html", "utf-8"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.mail.ru", 465) as smtp:
+            smtp.login(sender, smtp_password)
+            smtp.sendmail(sender, recipient, msg.as_string())
+        return True
+    except Exception:
+        return False
 
 
 def send_order_notification(order_id: int, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> int | None:
@@ -151,6 +203,8 @@ def handler(event: dict, context) -> dict:
             (message_id, new_id),
         )
         conn.commit()
+
+    send_email_notification(new_id, name, phone, comment, items, custom_designs, total_price)
 
     cur.close()
     conn.close()
