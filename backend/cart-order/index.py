@@ -71,6 +71,31 @@ def handler(event: dict, context) -> dict:
     if event.get("httpMethod") == "GET":
         conn = psycopg2.connect(os.environ["DATABASE_URL"])
         cur = conn.cursor()
+
+        # Режим повторной отправки пропущенных уведомлений
+        if event.get("queryStringParameters", {}).get("resend") == "1":
+            cur.execute(
+                "SELECT id, name, phone, comment, items, total_price "
+                "FROM t_p51841735_bracelet_store_creat.cart_orders "
+                "WHERE tg_message_id IS NULL ORDER BY created_at ASC"
+            )
+            missed = cur.fetchall()
+            sent = []
+            for r in missed:
+                order_id, name, phone, comment, items_raw, total_price = r
+                items = items_raw if isinstance(items_raw, list) else json.loads(items_raw or "[]")
+                msg_id = send_order_notification(order_id, name, phone, comment or "", items, [], total_price)
+                if msg_id:
+                    cur.execute(
+                        "UPDATE t_p51841735_bracelet_store_creat.cart_orders SET tg_message_id = %s WHERE id = %s",
+                        (msg_id, order_id),
+                    )
+                    sent.append(order_id)
+            conn.commit()
+            cur.close()
+            conn.close()
+            return {"statusCode": 200, "headers": HEADERS, "body": json.dumps({"ok": True, "sent": sent}, ensure_ascii=False)}
+
         cur.execute(
             "SELECT id, name, phone, comment, items, total_price, status, created_at "
             "FROM t_p51841735_bracelet_store_creat.cart_orders ORDER BY created_at DESC"
