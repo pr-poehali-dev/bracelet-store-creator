@@ -1,10 +1,12 @@
 import Icon from "@/components/ui/icon";
 import StoneGem from "@/components/StoneGem";
 import { STONES_CATALOG } from "@/data/products";
+import { CHARM_TYPES } from "./StonePicker";
 
 interface BraceletPlatformProps {
   selectedStones: string[];
   stoneKeys: React.MutableRefObject<string[]>;
+  charm: string;
   onRemoveStoneAt: (idx: number) => void;
   onRemoveLastStone: () => void;
 }
@@ -17,18 +19,20 @@ const BEAD_R = 14;
 export default function BraceletPlatform({
   selectedStones,
   stoneKeys,
+  charm,
   onRemoveStoneAt,
   onRemoveLastStone,
 }: BraceletPlatformProps) {
   const total = selectedStones.length + 1;
   const slots = Math.max(total, 8);
+  const charmDef = CHARM_TYPES.find(c => c.id === charm);
 
   const stoneDetails = (id: string) => STONES_CATALOG.find(s => s.id === id);
 
   return (
     <div className="bg-card border border-border rounded-2xl p-6">
       <h2 className="font-display text-xl mb-4 text-foreground">Предпросмотр</h2>
-      <div className="relative bg-secondary/30 rounded-xl flex items-center justify-center py-4" style={{ minHeight: 300 }}>
+      <div className="relative bg-secondary/30 rounded-xl flex items-center justify-center py-4 pb-10" style={{ minHeight: 340 }}>
         <div style={{ width: SIZE, height: SIZE, position: "relative" }}>
           {/* SVG фон — платформа + эзотерический центр */}
           <svg width={SIZE} height={SIZE} viewBox={`0 0 ${SIZE} ${SIZE}`} style={{ position: "absolute", top: 0, left: 0 }}>
@@ -178,6 +182,33 @@ export default function BraceletPlatform({
               </div>
             );
           })()}
+
+          {/* Подвеска */}
+          {charmDef && charmDef.id !== "none" && (
+            <div
+              title={charmDef.label}
+              className="absolute flex flex-col items-center stone-appear"
+              style={{ left: CENTER - 22, top: SIZE - 14 }}
+            >
+              {/* Цепочка */}
+              <div style={{ width: 1.5, height: 18, background: "linear-gradient(to bottom, #b8a070, #9c8060)", borderRadius: 1, opacity: 0.7 }} />
+              {/* Медальон */}
+              <div
+                className="flex items-center justify-center rounded-full"
+                style={{
+                  width: 44,
+                  height: 44,
+                  background: "radial-gradient(circle at 35% 30%, #f0e8d0, #d4c090, #a08040)",
+                  boxShadow: "0 3px 10px rgba(0,0,0,0.25), inset 0 1px 3px rgba(255,255,255,0.4)",
+                  border: "1px solid rgba(180,140,60,0.5)",
+                  fontSize: 22,
+                  lineHeight: 1,
+                }}
+              >
+                {charmDef.emoji}
+              </div>
+            </div>
+          )}
         </div>
       </div>
       <div className="flex justify-between items-center mt-3">

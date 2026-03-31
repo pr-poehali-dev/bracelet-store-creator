@@ -132,6 +132,7 @@ export default function Constructor() {
             <BraceletPlatform
               selectedStones={selectedStones}
               stoneKeys={stoneKeys}
+              charm={charm}
               onRemoveStoneAt={removeStoneAt}
               onRemoveLastStone={removeLastStone}
             />
