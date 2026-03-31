@@ -3,6 +3,7 @@ import { STONES_CATALOG } from "@/data/products";
 import { useCart } from "@/context/CartContext";
 import { CustomDesign } from "@/context/CartContext";
 import Icon from "@/components/ui/icon";
+import StoneGem from "@/components/StoneGem";
 import { toast } from "sonner";
 
 const CLASP_TYPES = [
@@ -157,11 +158,11 @@ export default function Constructor() {
                         <div
                           key={idx}
                           className="bead cursor-pointer relative group"
-                          style={{ backgroundColor: stone?.color || "#aaa" }}
                           title={stone?.name}
                           onClick={() => removeStoneAt(idx)}
                         >
-                          <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                          <StoneGem stoneId={stoneId} size={28} />
+                          <span className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity bg-black/30 rounded-full">
                             <Icon name="X" size={12} className="text-white" />
                           </span>
                         </div>
@@ -194,10 +195,9 @@ export default function Constructor() {
                     onClick={() => addStone(stone.id)}
                     className="flex items-center gap-2.5 p-3 rounded-xl border border-border hover:border-primary/50 hover:bg-secondary/40 transition-all text-left group"
                   >
-                    <div
-                      className="w-8 h-8 rounded-full flex-shrink-0 shadow-md group-hover:scale-110 transition-transform"
-                      style={{ backgroundColor: stone.color }}
-                    />
+                    <div className="flex-shrink-0 group-hover:scale-110 transition-transform">
+                      <StoneGem stoneId={stone.id} size={32} />
+                    </div>
                     <div className="min-w-0">
                       <p className="text-xs font-body font-medium text-foreground truncate">{stone.name}</p>
                       <p className="text-[10px] font-body text-primary font-medium">{stone.price} ₽/шт</p>
