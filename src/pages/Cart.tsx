@@ -6,10 +6,10 @@ import { toast } from "sonner";
 import CartOrderModal from "@/components/CartOrderModal";
 
 export default function Cart() {
-  const { items, removeFromCart, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
+  const { items, cartDesigns, removeFromCart, removeDesignFromCart, updateQuantity, clearCart, totalItems, totalPrice } = useCart();
   const [orderOpen, setOrderOpen] = useState(false);
 
-  if (items.length === 0) {
+  if (items.length === 0 && cartDesigns.length === 0) {
     return (
       <main className="container mx-auto px-4 py-10 text-center">
         <div className="max-w-sm mx-auto py-20">
@@ -76,6 +76,30 @@ export default function Cart() {
               </button>
             </div>
           ))}
+
+          {cartDesigns.length > 0 && (
+            <>
+              <h2 className="font-display text-lg text-foreground pt-2">Браслеты из конструктора</h2>
+              {cartDesigns.map(design => (
+                <div key={design.id} className="bg-card border border-border rounded-2xl p-4 flex gap-4 items-start">
+                  <div className="w-20 h-20 rounded-xl bg-secondary flex items-center justify-center flex-shrink-0">
+                    <Icon name="Sparkles" size={28} className="text-primary" />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-display text-lg text-foreground leading-tight">{design.name}</h3>
+                    <p className="text-xs font-body text-muted-foreground mb-1">{design.stones.length} камней • размер {design.size} см</p>
+                    <span className="text-lg font-display text-foreground">{design.price.toLocaleString()} ₽</span>
+                  </div>
+                  <button
+                    onClick={() => { removeDesignFromCart(design.id); toast.success("Дизайн удалён из корзины"); }}
+                    className="p-1.5 rounded-full hover:bg-secondary transition-colors text-muted-foreground hover:text-foreground flex-shrink-0"
+                  >
+                    <Icon name="X" size={16} />
+                  </button>
+                </div>
+              ))}
+            </>
+          )}
         </div>
 
         {/* Итог */}

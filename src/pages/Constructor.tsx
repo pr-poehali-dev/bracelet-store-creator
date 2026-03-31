@@ -29,7 +29,7 @@ const BASE_PRICE_ELASTIC = 100;
 const BASE_PRICE_DEFAULT = 400;
 
 export default function Constructor() {
-  const { saveDesign, savedDesigns, deleteDesign } = useCart();
+  const { saveDesign, savedDesigns, deleteDesign, addDesignToCart } = useCart();
   const [selectedStones, setSelectedStones] = useState<string[]>([]);
   const [braceletSize, setBraceletSize] = useState(17);
   const [clasp, setClasp] = useState("elastic");
@@ -64,23 +64,32 @@ export default function Constructor() {
 
   const clearAll = () => setSelectedStones([]);
 
+  const buildDesign = (): CustomDesign => ({
+    id: Date.now().toString(),
+    name: designName.trim() || `Браслет от ${new Date().toLocaleDateString("ru-RU")}`,
+    stones: selectedStones,
+    size: braceletSize,
+    clasp,
+    createdAt: new Date().toISOString(),
+    price: totalPrice,
+  });
+
   const handleSave = () => {
     if (selectedStones.length === 0) {
       toast.error("Добавьте хотя бы один камень");
       return;
     }
-    const name = designName.trim() || `Браслет от ${new Date().toLocaleDateString("ru-RU")}`;
-    const design: CustomDesign = {
-      id: Date.now().toString(),
-      name,
-      stones: selectedStones,
-      size: braceletSize,
-      clasp,
-      createdAt: new Date().toISOString(),
-      price: totalPrice,
-    };
-    saveDesign(design);
+    saveDesign(buildDesign());
     toast.success("Дизайн сохранён в личном кабинете!");
+  };
+
+  const handleAddToCart = () => {
+    if (selectedStones.length === 0) {
+      toast.error("Добавьте хотя бы один камень");
+      return;
+    }
+    addDesignToCart(buildDesign());
+    toast.success("Дизайн добавлен в корзину!");
   };
 
   const handleShare = () => {
@@ -323,8 +332,16 @@ export default function Constructor() {
 
               <div className="space-y-2">
                 <button
+                  onClick={handleAddToCart}
+                  disabled={selectedStones.length === 0}
+                  className="w-full py-3 bg-primary text-primary-foreground rounded-full text-sm font-body font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
+                >
+                  <Icon name="ShoppingCart" size={16} />
+                  Отправить дизайн в корзину
+                </button>
+                <button
                   onClick={handleSave}
-                  className="w-full py-3 bg-primary text-primary-foreground rounded-full text-sm font-body font-medium hover:opacity-90 transition-opacity flex items-center justify-center gap-2"
+                  className="w-full py-3 border border-border text-foreground rounded-full text-sm font-body font-medium hover:bg-secondary transition-colors flex items-center justify-center gap-2"
                 >
                   <Icon name="BookmarkPlus" size={16} />
                   Сохранить дизайн
