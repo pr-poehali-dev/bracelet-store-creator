@@ -15,7 +15,6 @@ const CLASP_TYPES = [
 const SIZES = [15, 16, 17, 18, 19, 20, 21];
 
 const BASE_PRICE = 800;
-const PRICE_PER_STONE = 120;
 
 export default function Constructor() {
   const { saveDesign, savedDesigns, deleteDesign } = useCart();
@@ -26,7 +25,11 @@ export default function Constructor() {
   const [tab, setTab] = useState<"create" | "saved">("create");
   const [shareLink, setShareLink] = useState<string | null>(null);
 
-  const totalPrice = BASE_PRICE + selectedStones.length * PRICE_PER_STONE;
+  const stonesPrice = selectedStones.reduce((sum, id) => {
+    const stone = STONES_CATALOG.find(s => s.id === id);
+    return sum + (stone?.price ?? 56);
+  }, 0);
+  const totalPrice = BASE_PRICE + stonesPrice;
 
   const addStone = (stoneId: string) => {
     if (selectedStones.length >= 20) {
@@ -173,7 +176,7 @@ export default function Constructor() {
                     />
                     <div className="min-w-0">
                       <p className="text-xs font-body font-medium text-foreground truncate">{stone.name}</p>
-                      <p className="text-[10px] font-body text-muted-foreground leading-snug truncate">{stone.meaning.split(",")[0]}</p>
+                      <p className="text-[10px] font-body text-primary font-medium">{stone.price} ₽/шт</p>
                     </div>
                   </button>
                 ))}
@@ -235,8 +238,8 @@ export default function Constructor() {
                 </div>
                 {selectedStones.length > 0 && (
                   <div className="flex justify-between text-sm font-body">
-                    <span className="text-muted-foreground">{selectedStones.length} камней × {PRICE_PER_STONE} ₽</span>
-                    <span className="text-foreground">{(selectedStones.length * PRICE_PER_STONE).toLocaleString()} ₽</span>
+                    <span className="text-muted-foreground">{selectedStones.length} камней</span>
+                    <span className="text-foreground">{stonesPrice.toLocaleString()} ₽</span>
                   </div>
                 )}
                 <div className="border-t border-border pt-3 flex justify-between font-body font-medium">
