@@ -19,7 +19,7 @@ def tg_request(token: str, method: str, payload: dict) -> dict:
         return json.loads(resp.read())
 
 
-def send_order_notification(order_id: int, name: str, phone: str, comment: str, items: list, total_price: int) -> int | None:
+def send_order_notification(order_id: int, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> int | None:
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
     if not token or not chat_id:
@@ -29,11 +29,20 @@ def send_order_notification(order_id: int, name: str, phone: str, comment: str, 
         f"  • {i.get('name', '?')} × {i.get('quantity', 1)} — {i.get('price', 0) * i.get('quantity', 1):,} ₽"
         for i in items
     )
+    designs_text = ""
+    if custom_designs:
+        lines = "\n".join(
+            f"  ✦ {d.get('name', 'Браслет')} — {d.get('stones_count', '?')} камней, размер {d.get('size', '?')} см, застёжка: {d.get('clasp', '?')} — {d.get('price', 0):,} ₽"
+            for d in custom_designs
+        )
+        designs_text = f"\n\n<b>Браслеты из конструктора:</b>\n{lines}"
+
     msg = (
         f"🛒 <b>Новый заказ #{order_id}</b>\n\n"
         f"👤 <b>Имя:</b> {name}\n"
         f"📞 <b>Телефон:</b> {phone}\n\n"
-        f"<b>Состав заказа:</b>\n{items_text}\n\n"
+        + (f"<b>Товары из каталога:</b>\n{items_text}" if items_text else "")
+        + designs_text + "\n\n"
         f"💰 <b>Итого: {total_price:,} ₽</b>"
         + (f"\n\n💬 <b>Комментарий:</b> {comment}" if comment else "")
     )
@@ -89,9 +98,10 @@ def handler(event: dict, context) -> dict:
     phone = body.get("phone", "").strip()
     comment = body.get("comment", "").strip()
     items = body.get("items", [])
+    custom_designs = body.get("custom_designs", [])
     total_price = body.get("total_price", 0)
 
-    if not name or not phone or not items:
+    if not name or not phone or (not items and not custom_designs):
         return {
             "statusCode": 400,
             "headers": HEADERS,
@@ -108,7 +118,7 @@ def handler(event: dict, context) -> dict:
     new_id = cur.fetchone()[0]
     conn.commit()
 
-    message_id = send_order_notification(new_id, name, phone, comment, items, total_price)
+    message_id = send_order_notification(new_id, name, phone, comment, items, custom_designs, total_price)
 
     if message_id:
         cur.execute(

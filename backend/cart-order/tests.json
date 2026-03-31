@@ -9,10 +9,12 @@
         "phone": "+79001234567",
         "comment": "Хочу доставку до двери",
         "items": [
-          {"name": "Браслет «Лунный свет»", "quantity": 1, "price": 2500},
-          {"name": "Браслет «Нефрит»", "quantity": 2, "price": 1800}
+          {"name": "Браслет «Лунный свет»", "quantity": 1, "price": 2500}
         ],
-        "total_price": 6100
+        "custom_designs": [
+          {"name": "Мой браслет", "stones_count": 8, "size": 17, "clasp": "elastic", "price": 550}
+        ],
+        "total_price": 3050
       },
       "expectedStatus": 200,
       "expectedBody": { "ok": true },
