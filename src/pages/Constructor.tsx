@@ -14,6 +14,17 @@ const CLASP_TYPES = [
 
 const SIZES = [15, 16, 17, 18, 19, 20, 21];
 
+const CHARM_TYPES = [
+  { id: "none",    label: "Без подвески", emoji: "✕",  price: 0 },
+  { id: "heart",   label: "Сердце",       emoji: "🤍", price: 150 },
+  { id: "star",    label: "Звезда",       emoji: "⭐", price: 150 },
+  { id: "moon",    label: "Месяц",        emoji: "🌙", price: 150 },
+  { id: "tree",    label: "Дерево",       emoji: "🌳", price: 200 },
+  { id: "lotus",   label: "Лотос",        emoji: "🪷", price: 200 },
+  { id: "sun",     label: "Солнце",       emoji: "☀️", price: 150 },
+  { id: "sea",     label: "Морская",      emoji: "🐚", price: 200 },
+];
+
 const BASE_PRICE_ELASTIC = 100;
 const BASE_PRICE_DEFAULT = 400;
 
@@ -22,6 +33,7 @@ export default function Constructor() {
   const [selectedStones, setSelectedStones] = useState<string[]>([]);
   const [braceletSize, setBraceletSize] = useState(17);
   const [clasp, setClasp] = useState("elastic");
+  const [charm, setCharm] = useState("none");
   const [designName, setDesignName] = useState("");
   const [tab, setTab] = useState<"create" | "saved">("create");
   const [shareLink, setShareLink] = useState<string | null>(null);
@@ -31,7 +43,8 @@ export default function Constructor() {
     const stone = STONES_CATALOG.find(s => s.id === id);
     return sum + (stone?.price ?? 56);
   }, 0);
-  const totalPrice = basePrice + stonesPrice;
+  const charmPrice = CHARM_TYPES.find(c => c.id === charm)?.price ?? 0;
+  const totalPrice = basePrice + stonesPrice + charmPrice;
 
   const addStone = (stoneId: string) => {
     if (selectedStones.length >= 20) {
@@ -226,6 +239,29 @@ export default function Constructor() {
                   ))}
                 </div>
               </div>
+
+              <div className="bg-card border border-border rounded-2xl p-6">
+                <h2 className="font-display text-xl mb-4 text-foreground">Подвеска</h2>
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                  {CHARM_TYPES.map(c => (
+                    <button
+                      key={c.id}
+                      onClick={() => setCharm(c.id)}
+                      className={`py-2.5 px-3 rounded-xl text-sm font-body transition-colors flex flex-col items-center gap-1 ${
+                        charm === c.id
+                          ? "bg-primary text-primary-foreground"
+                          : "bg-secondary text-foreground hover:bg-secondary/70"
+                      }`}
+                    >
+                      <span className="text-xl leading-none">{c.emoji}</span>
+                      <span className="text-xs">{c.label}</span>
+                      <span className={`text-[11px] font-medium ${charm === c.id ? "text-primary-foreground/80" : "text-muted-foreground"}`}>
+                        {c.price > 0 ? `+${c.price} ₽` : "бесплатно"}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
@@ -243,6 +279,12 @@ export default function Constructor() {
                   <div className="flex justify-between text-sm font-body">
                     <span className="text-muted-foreground">{selectedStones.length} камней</span>
                     <span className="text-foreground">{stonesPrice.toLocaleString()} ₽</span>
+                  </div>
+                )}
+                {charmPrice > 0 && (
+                  <div className="flex justify-between text-sm font-body">
+                    <span className="text-muted-foreground">Подвеска «{CHARM_TYPES.find(c => c.id === charm)?.label}»</span>
+                    <span className="text-foreground">+{charmPrice} ₽</span>
                   </div>
                 )}
                 <div className="border-t border-border pt-3 flex justify-between font-body font-medium">
