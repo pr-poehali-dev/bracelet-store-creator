@@ -18,8 +18,12 @@ def tg_request(token: str, method: str, payload: dict) -> dict:
     url = f"https://api.telegram.org/bot{token}/{method}"
     data = json.dumps(payload, ensure_ascii=False).encode()
     req = urllib.request.Request(url, data=data, headers={"Content-Type": "application/json"})
-    with urllib.request.urlopen(req, timeout=10) as resp:
-        return json.loads(resp.read())
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return json.loads(resp.read())
+    except Exception as e:
+        print(f"[TG ERROR] {e}")
+        return {}
 
 
 def send_max_notification(order_id: int, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> bool:
