@@ -1,6 +1,41 @@
 import json
 import os
+import urllib.request
 import psycopg2
+
+
+def send_max_notification(order_id: int, product_name: str, name: str, phone: str, birth_date: str, request_text: str) -> bool:
+    """Отправка уведомления о новой заявке в мессенджер MAX."""
+    token = os.environ.get("MAX_BOT_TOKEN", "")
+    user_id = os.environ.get("MAX_USER_ID", "")
+    if not token or not user_id:
+        return False
+
+    msg = (
+        f"📋 Новая заявка #{order_id}\n\n"
+        f"🛍 Товар: {product_name}\n"
+        f"👤 Имя: {name}\n"
+        f"📞 Телефон: {phone}\n"
+        + (f"🎂 Дата рождения: {birth_date}\n" if birth_date else "")
+        + (f"\n💬 Пожелания: {request_text}" if request_text else "")
+    )
+
+    payload = json.dumps({"text": msg}, ensure_ascii=False).encode()
+    url = f"https://platform-api.max.ru/messages?user_id={user_id}"
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
 
 
 def handler(event: dict, context) -> dict:
@@ -65,6 +100,8 @@ def handler(event: dict, context) -> dict:
     conn.commit()
     cur.close()
     conn.close()
+
+    send_max_notification(new_id, product_name, name, phone, birth_date, request_text)
 
     return {
         "statusCode": 200,

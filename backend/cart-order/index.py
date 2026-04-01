@@ -22,6 +22,53 @@ def tg_request(token: str, method: str, payload: dict) -> dict:
         return json.loads(resp.read())
 
 
+def send_max_notification(order_id: int, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> bool:
+    """Отправка уведомления о новом заказе в мессенджер MAX."""
+    token = os.environ.get("MAX_BOT_TOKEN", "")
+    user_id = os.environ.get("MAX_USER_ID", "")
+    if not token or not user_id:
+        return False
+
+    items_text = "\n".join(
+        f"  • {i.get('name', '?')} × {i.get('quantity', 1)} — {i.get('price', 0) * i.get('quantity', 1):,} ₽"
+        for i in items
+    )
+    designs_text = ""
+    if custom_designs:
+        lines = "\n".join(
+            f"  ✦ {d.get('name', 'Браслет')} — {d.get('stones_count', '?')} камней, размер {d.get('size', '?')} см, застёжка: {d.get('clasp', '?')} — {d.get('price', 0):,} ₽"
+            for d in custom_designs
+        )
+        designs_text = f"\n\nБраслеты из конструктора:\n{lines}"
+
+    msg = (
+        f"🛒 Новый заказ #{order_id}\n\n"
+        f"👤 Имя: {name}\n"
+        f"📞 Телефон: {phone}\n\n"
+        + (f"Товары из каталога:\n{items_text}" if items_text else "")
+        + designs_text + "\n\n"
+        f"💰 Итого: {total_price:,} ₽"
+        + (f"\n\n💬 Комментарий: {comment}" if comment else "")
+    )
+
+    payload = json.dumps({"text": msg}, ensure_ascii=False).encode()
+    url = f"https://platform-api.max.ru/messages?user_id={user_id}"
+    req = urllib.request.Request(
+        url,
+        data=payload,
+        headers={
+            "Content-Type": "application/json",
+            "Authorization": f"Bearer {token}",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            return resp.status == 200
+    except Exception:
+        return False
+
+
 def send_email_notification(order_id: int, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> bool:
     smtp_password = os.environ.get("MAIL_SMTP_PASSWORD", "")
     if not smtp_password:
@@ -205,6 +252,7 @@ def handler(event: dict, context) -> dict:
         conn.commit()
 
     send_email_notification(new_id, name, phone, comment, items, custom_designs, total_price)
+    send_max_notification(new_id, name, phone, comment, items, custom_designs, total_price)
 
     cur.close()
     conn.close()
