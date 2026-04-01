@@ -5,6 +5,7 @@ import { useCart } from "@/context/CartContext";
 import Icon from "@/components/ui/icon";
 import { toast } from "sonner";
 import OrderRequestModal from "@/components/OrderRequestModal";
+import AddToCartModal from "@/components/AddToCartModal";
 
 const REQUEST_IDS = [13, 14, 15, 16, 17];
 
@@ -14,6 +15,7 @@ export default function Catalog() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState<"default" | "price_asc" | "price_desc">("default");
   const [modalProduct, setModalProduct] = useState<Product | null>(null);
+  const [cartModalProduct, setCartModalProduct] = useState<Product | null>(null);
 
   const filtered = PRODUCTS
     .filter(p => activeCategory === "all" || p.category === activeCategory)
@@ -124,7 +126,7 @@ export default function Catalog() {
                         </button>
                       ) : (
                         <button
-                          onClick={() => { if (product.inStock) { addToCart(product); toast.success("Добавлено в корзину"); } }}
+                          onClick={() => { if (product.inStock) setCartModalProduct(product); }}
                           disabled={!product.inStock}
                           className={`px-4 py-2 rounded-full text-xs font-body transition-opacity ${
                             product.inStock
@@ -148,6 +150,16 @@ export default function Catalog() {
         product={modalProduct}
         open={!!modalProduct}
         onClose={() => setModalProduct(null)}
+      />
+
+      <AddToCartModal
+        product={cartModalProduct}
+        open={!!cartModalProduct}
+        onClose={() => setCartModalProduct(null)}
+        onConfirm={(product) => {
+          addToCart(product);
+          toast.success("Добавлено в корзину");
+        }}
       />
     </main>
   );
