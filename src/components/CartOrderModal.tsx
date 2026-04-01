@@ -17,12 +17,13 @@ interface Props {
 export default function CartOrderModal({ open, onClose, items, cartDesigns, totalPrice, onSuccess }: Props) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
+  const [email, setEmail] = useState("");
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
 
   const handleClose = () => {
-    setName(""); setPhone(""); setComment("");
+    setName(""); setPhone(""); setEmail(""); setComment("");
     setSent(false);
     onClose();
   };
@@ -41,6 +42,7 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
         body: JSON.stringify({
           name: name.trim(),
           phone: phone.trim(),
+          email: email.trim(),
           comment: comment.trim(),
           items: items.map(({ product, quantity }) => ({
             name: product.name,
@@ -138,6 +140,17 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
                 placeholder="+7 (___) ___-__-__"
                 className="w-full px-4 py-2.5 bg-card border border-border rounded-xl text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
                 required
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-body text-foreground mb-1">Email</label>
+              <input
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="для подтверждения заказа"
+                className="w-full px-4 py-2.5 bg-card border border-border rounded-xl text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
               />
             </div>
 

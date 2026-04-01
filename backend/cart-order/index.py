@@ -122,6 +122,79 @@ def send_email_notification(order_id: int, name: str, phone: str, comment: str, 
         return False
 
 
+def send_buyer_email(order_id: int, buyer_email: str, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> bool:
+    """Отправка подтверждения заказа покупателю."""
+    smtp_password = os.environ.get("MAIL_SMTP_PASSWORD", "")
+    if not smtp_password or not buyer_email:
+        return False
+
+    sender = "Lida.tetyush@mail.ru"
+
+    items_html = "".join(
+        f"<tr><td style='padding:6px 8px; border-bottom:1px solid #f0e8de;'>{i.get('name', '?')} × {i.get('quantity', 1)}</td>"
+        f"<td style='padding:6px 8px; border-bottom:1px solid #f0e8de; text-align:right; white-space:nowrap;'>{i.get('price', 0) * i.get('quantity', 1):,} ₽</td></tr>"
+        for i in items
+    )
+    designs_html = ""
+    if custom_designs:
+        rows = "".join(
+            f"<tr><td style='padding:6px 8px; border-bottom:1px solid #f0e8de;'>✦ {d.get('name', 'Браслет')} — {d.get('stones_count', '?')} камней, {d.get('size', '?')} см, застёжка: {d.get('clasp', '?')}</td>"
+            f"<td style='padding:6px 8px; border-bottom:1px solid #f0e8de; text-align:right; white-space:nowrap;'>{d.get('price', 0):,} ₽</td></tr>"
+            for d in custom_designs
+        )
+        designs_html = rows
+
+    all_rows_html = items_html + designs_html
+
+    html = f"""
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 0; background: #fff;">
+      <div style="background: #7a5c3a; padding: 28px 32px; text-align: center;">
+        <h1 style="color: #fff; margin: 0; font-size: 22px; font-weight: 300; letter-spacing: 2px;">УКРАШЕНИЯ РУЧНОЙ РАБОТЫ</h1>
+      </div>
+      <div style="padding: 32px;">
+        <h2 style="color: #7a5c3a; font-weight: 400; margin-top: 0;">Заказ #{order_id} принят!</h2>
+        <p style="color: #555; line-height: 1.6;">Привет, <b>{name}</b>! 🌸<br>
+        Мы получили ваш заказ и свяжемся с вами в течение дня для подтверждения и обсуждения доставки.</p>
+
+        <h3 style="color: #7a5c3a; font-weight: 400; border-bottom: 1px solid #e0d0c0; padding-bottom: 8px;">Ваш заказ</h3>
+        <table style="width:100%; border-collapse: collapse; margin-bottom: 16px;">
+          {all_rows_html}
+          <tr>
+            <td style="padding: 10px 8px; font-weight: bold; color: #333;">Итого</td>
+            <td style="padding: 10px 8px; font-weight: bold; color: #7a5c3a; text-align: right; font-size: 18px;">{total_price:,} ₽</td>
+          </tr>
+        </table>
+
+        {f'<p style="color:#555;"><b>Комментарий:</b> {comment}</p>' if comment else ''}
+
+        <div style="background: #fdf8f3; border-left: 3px solid #7a5c3a; padding: 14px 18px; margin: 20px 0; border-radius: 0 8px 8px 0;">
+          <p style="margin: 0; color: #7a5c3a; font-size: 14px;">📞 Мастер свяжется с вами по номеру <b>{phone}</b> для подтверждения и выбора удобного способа оплаты.</p>
+        </div>
+
+        <p style="color: #999; font-size: 12px; text-align: center; margin-top: 32px; border-top: 1px solid #f0e8de; padding-top: 16px;">
+          Если у вас есть вопросы — просто ответьте на это письмо.<br>
+          С любовью, мастерская украшений ручной работы 🌿
+        </p>
+      </div>
+    </div>
+    """
+
+    msg = MIMEMultipart("alternative")
+    msg["Subject"] = f"Заказ #{order_id} принят — {total_price:,} ₽"
+    msg["From"] = f"Украшения ручной работы <{sender}>"
+    msg["To"] = buyer_email
+    msg.attach(MIMEText(html, "html", "utf-8"))
+
+    try:
+        with smtplib.SMTP_SSL("smtp.mail.ru", 465) as smtp:
+            smtp.login(sender, smtp_password)
+            smtp.sendmail(sender, buyer_email, msg.as_string())
+        return True
+    except Exception as e:
+        print(f"[EMAIL BUYER ERROR] {e}")
+        return False
+
+
 def send_order_notification(order_id: int, name: str, phone: str, comment: str, items: list, custom_designs: list, total_price: int) -> int | None:
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "")
     chat_id = os.environ.get("TELEGRAM_CHAT_ID", "")
@@ -224,6 +297,7 @@ def handler(event: dict, context) -> dict:
     body = json.loads(event.get("body") or "{}")
     name = body.get("name", "").strip()
     phone = body.get("phone", "").strip()
+    email = body.get("email", "").strip()
     comment = body.get("comment", "").strip()
     items = body.get("items", [])
     custom_designs = body.get("custom_designs", [])
@@ -257,6 +331,8 @@ def handler(event: dict, context) -> dict:
 
     send_email_notification(new_id, name, phone, comment, items, custom_designs, total_price)
     send_max_notification(new_id, name, phone, comment, items, custom_designs, total_price)
+    if email:
+        send_buyer_email(new_id, email, name, phone, comment, items, custom_designs, total_price)
 
     cur.close()
     conn.close()
