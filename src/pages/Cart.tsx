@@ -120,7 +120,7 @@ export default function Cart() {
                 </div>
                 <div className="flex justify-between font-body text-sm mt-1.5">
                   <span className="text-muted-foreground">Доставка</span>
-                  <span className="text-muted-foreground">{totalPrice >= 5000 ? "Бесплатно" : "от 250 ₽"}</span>
+                  <span className="text-muted-foreground">{totalPrice >= 3000 ? "Бесплатно" : "от 250 ₽"}</span>
                 </div>
               </div>
               <div className="border-t border-border pt-3 flex justify-between">
@@ -129,9 +129,9 @@ export default function Cart() {
               </div>
             </div>
 
-            {totalPrice < 5000 && (
+            {totalPrice < 3000 && (
               <div className="mb-4 p-3 bg-primary/10 rounded-xl text-xs font-body text-foreground">
-                До бесплатной доставки: <strong>{(5000 - totalPrice).toLocaleString()} ₽</strong>
+                До бесплатной доставки: <strong>{(3000 - totalPrice).toLocaleString()} ₽</strong>
               </div>
             )}
 

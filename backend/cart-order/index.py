@@ -79,7 +79,7 @@ def send_email_notification(order_id: int, name: str, phone: str, comment: str, 
         return False
 
     sender = "Lida.tetyush@mail.ru"
-    recipient = "Lida.tetyush@mail.ru"
+    recipient = "Lida.tet@yandex.ru"
 
     items_html = "".join(
         f"<li>{i.get('name', '?')} × {i.get('quantity', 1)} — {i.get('price', 0) * i.get('quantity', 1):,} ₽</li>"
