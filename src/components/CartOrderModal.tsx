@@ -18,9 +18,17 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
+
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    let val = e.target.value.replace(/\D/g, "");
+    if (val.startsWith("7")) val = val.slice(1);
+    if (val.length > 10) val = val.slice(0, 10);
+    setPhone(val);
+  };
 
   const handleClose = () => {
     setName(""); setPhone(""); setEmail(""); setComment("");
@@ -41,7 +49,7 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
-          phone: phone.trim(),
+          phone: `+7${phone.trim()}`,
           email: email.trim(),
           comment: comment.trim(),
           items: items.map(({ product, quantity }) => ({
@@ -133,14 +141,18 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
 
             <div>
               <label className="block text-sm font-body text-foreground mb-1">Телефон *</label>
-              <input
-                type="tel"
-                value={phone}
-                onChange={e => setPhone(e.target.value)}
-                placeholder="+7 (___) ___-__-__"
-                className="w-full px-4 py-2.5 bg-card border border-border rounded-xl text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
-                required
-              />
+              <div className="flex">
+                <span className="flex items-center px-3 bg-secondary border border-r-0 border-border rounded-l-xl text-sm font-body text-foreground">+7</span>
+                <input
+                  type="tel"
+                  value={phone}
+                  onChange={handlePhoneChange}
+                  placeholder="9XXXXXXXXX"
+                  maxLength={10}
+                  className="w-full px-4 py-2.5 bg-card border border-border rounded-r-xl text-sm font-body text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary"
+                  required
+                />
+              </div>
             </div>
 
             <div>
