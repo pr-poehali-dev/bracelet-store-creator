@@ -78,7 +78,7 @@ def send_email_notification(order_id: int, name: str, phone: str, comment: str, 
     if not smtp_password:
         return False
 
-    sender = "Lida.tetyush@mail.ru"
+    sender = "Lida.tet@yandex.ru"
     recipient = "Lida.tet@yandex.ru"
 
     items_html = "".join(
@@ -114,7 +114,7 @@ def send_email_notification(order_id: int, name: str, phone: str, comment: str, 
     msg.attach(MIMEText(html, "html", "utf-8"))
 
     try:
-        with smtplib.SMTP_SSL("smtp.mail.ru", 465) as smtp:
+        with smtplib.SMTP_SSL("smtp.yandex.ru", 465) as smtp:
             smtp.login(sender, smtp_password)
             smtp.sendmail(sender, recipient, msg.as_string())
         return True
@@ -128,7 +128,7 @@ def send_buyer_email(order_id: int, buyer_email: str, name: str, phone: str, com
     if not smtp_password or not buyer_email:
         return False
 
-    sender = "Lida.tetyush@mail.ru"
+    sender = "Lida.tet@yandex.ru"
 
     items_html = "".join(
         f"<tr><td style='padding:6px 8px; border-bottom:1px solid #f0e8de;'>{i.get('name', '?')} × {i.get('quantity', 1)}</td>"
@@ -186,7 +186,7 @@ def send_buyer_email(order_id: int, buyer_email: str, name: str, phone: str, com
     msg.attach(MIMEText(html, "html", "utf-8"))
 
     try:
-        with smtplib.SMTP_SSL("smtp.mail.ru", 465) as smtp:
+        with smtplib.SMTP_SSL("smtp.yandex.ru", 465) as smtp:
             smtp.login(sender, smtp_password)
             smtp.sendmail(sender, buyer_email, msg.as_string())
         return True
