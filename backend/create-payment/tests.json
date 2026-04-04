@@ -1,0 +1,17 @@
+{
+  "tests": [
+    {
+      "name": "OPTIONS preflight",
+      "method": "OPTIONS",
+      "path": "/",
+      "expectedStatus": 200
+    },
+    {
+      "name": "Missing credentials returns 503",
+      "method": "POST",
+      "path": "/",
+      "body": {"order_id": 1, "total_price": 1000},
+      "expectedStatus": 503
+    }
+  ]
+}

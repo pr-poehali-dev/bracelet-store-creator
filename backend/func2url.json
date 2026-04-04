@@ -1,4 +1,5 @@
 {
+  "create-payment": "https://functions.poehali.dev/67db5932-3040-4523-9443-904245eda0de",
   "add-to-cart-notify": "https://functions.poehali.dev/a0c1e07d-48c5-44d6-94ea-9e2d957bb39d",
   "telegram-webhook": "https://functions.poehali.dev/b1bc9036-9153-44b9-863e-58a76ad57d4a",
   "cart-order": "https://functions.poehali.dev/7f12a6c0-7ac6-48c2-9ce5-d3cbd2f94690",

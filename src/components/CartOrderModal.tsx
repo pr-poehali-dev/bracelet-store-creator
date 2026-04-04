@@ -22,6 +22,8 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
   const [comment, setComment] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
+  const [orderId, setOrderId] = useState<number | null>(null);
+  const [paymentLoading, setPaymentLoading] = useState(false);
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let val = e.target.value.replace(/\D/g, "");
@@ -32,8 +34,34 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
 
   const handleClose = () => {
     setName(""); setPhone(""); setEmail(""); setComment("");
-    setSent(false);
+    setSent(false); setOrderId(null);
     onClose();
+  };
+
+  const handlePayment = async () => {
+    if (!orderId) return;
+    setPaymentLoading(true);
+    try {
+      const res = await fetch(func2url["create-payment"], {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          order_id: orderId,
+          total_price: totalPrice,
+          return_url: window.location.href,
+        }),
+      });
+      const data = await res.json();
+      if (res.ok && data.ok) {
+        window.location.href = data.confirmation_url;
+      } else {
+        toast.error(data.error || "Ошибка при создании платежа");
+      }
+    } catch {
+      toast.error("Нет связи с сервером");
+    } finally {
+      setPaymentLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -70,6 +98,7 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
       const data = await res.json();
       if (res.ok && data.ok) {
         setSent(true);
+        setOrderId(data.id);
         onSuccess();
       } else {
         toast.error(data.error || "Ошибка при отправке");
@@ -95,15 +124,26 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
               <Icon name="CheckCircle" size={32} className="text-primary" />
             </div>
-            <p className="text-foreground font-body mb-2">Мастер свяжется с тобой в течение дня</p>
+            <p className="text-foreground font-body mb-2">Заказ #{orderId} оформлен!</p>
             <p className="text-muted-foreground text-sm font-body mb-6">
-              Обсудим доставку и удобный способ оплаты
+              Оплатите сейчас через СБП или мастер свяжется с вами для оплаты
             </p>
             <button
-              onClick={handleClose}
-              className="px-8 py-3 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity"
+              onClick={handlePayment}
+              disabled={paymentLoading}
+              className="w-full py-3 bg-primary text-primary-foreground rounded-full text-sm font-body font-medium hover:opacity-90 transition-opacity disabled:opacity-60 flex items-center justify-center gap-2 mb-3"
             >
-              Закрыть
+              {paymentLoading ? (
+                <><Icon name="Loader2" size={16} className="animate-spin" /> Переходим к оплате...</>
+              ) : (
+                <><Icon name="Smartphone" size={16} /> Оплатить через СБП — {totalPrice.toLocaleString()} ₽</>
+              )}
+            </button>
+            <button
+              onClick={handleClose}
+              className="w-full py-2.5 text-sm font-body text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Оплачу позже
             </button>
           </div>
         ) : (
