@@ -49,9 +49,9 @@ export default function About() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             {[
-              { num: "5+", label: "Лет на рынке" },
-              { num: "2400+", label: "Довольных клиентов" },
-              { num: "16+", label: "Видов камней" },
+              { num: "2+", label: "Лет на рынке" },
+              { num: "200+", label: "Довольных клиентов" },
+              { num: "30+", label: "Видов камней" },
               { num: "100%", label: "Натуральные камни" },
             ].map(s => (
               <div key={s.label}>
