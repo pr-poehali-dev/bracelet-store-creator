@@ -116,7 +116,11 @@ export default function Delivery() {
       <section className="bg-secondary/30 rounded-2xl p-8 text-center">
         <h2 className="text-3xl font-display font-light text-foreground mb-3">Есть вопросы?</h2>
         <p className="text-muted-foreground font-body mb-1">Напишите нам — ответим в течение часа в рабочее время</p>
-        <p className="text-sm font-body text-muted-foreground mb-5">ИНН: 343657054080</p>
+        <div className="text-sm font-body text-muted-foreground mb-5 space-y-0.5">
+          <p>Самозанятая: Тетюшева Лидия Владимировна</p>
+          <p>ИНН: 343657054080</p>
+          <p>Адрес: Волгоградская обл., г. Камышин, ул. Металлургов, 8а</p>
+        </div>
         <div className="flex flex-wrap justify-center gap-4">
           <a href="mailto:lida.tetyush@mail.ru" className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity">
             <Icon name="Mail" size={16} />
