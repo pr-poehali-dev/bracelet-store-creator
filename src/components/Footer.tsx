@@ -82,6 +82,7 @@ export default function Footer() {
 
         <div className="border-t border-background/10 mt-10 pt-6 flex flex-col md:flex-row items-center justify-between gap-3">
           <p className="text-xs opacity-40 font-body">© 2024 Душа природы. Все права защищены</p>
+          <p className="text-xs opacity-40 font-body">ИНН: 343657054080</p>
           <p className="text-xs opacity-40 font-body">Натуральные камни • Ручная работа • С любовью</p>
         </div>
       </div>
