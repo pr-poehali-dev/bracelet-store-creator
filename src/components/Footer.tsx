@@ -62,7 +62,7 @@ export default function Footer() {
             <ul className="space-y-3">
               <li className="flex items-center gap-2 text-sm opacity-70">
                 <Icon name="Mail" size={14} />
-                <span className="font-body">lida.tetyush@mail.ru</span>
+                <span className="font-body">Lida.tet@yandex.ru</span>
               </li>
               <li className="flex items-center gap-2 text-sm opacity-70">
                 <Icon name="Phone" size={14} />

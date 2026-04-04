@@ -122,9 +122,9 @@ export default function Delivery() {
           <p>Адрес: Волгоградская обл., г. Камышин, ул. Металлургов, 8а</p>
         </div>
         <div className="flex flex-wrap justify-center gap-4">
-          <a href="mailto:lida.tetyush@mail.ru" className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity">
+          <a href="mailto:Lida.tet@yandex.ru" className="flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-full text-sm font-body hover:opacity-90 transition-opacity">
             <Icon name="Mail" size={16} />
-            lida.tetyush@mail.ru
+            Lida.tet@yandex.ru
           </a>
           <a href="https://t.me/zemlyakamen" className="flex items-center gap-2 px-6 py-3 border border-border text-foreground rounded-full text-sm font-body hover:bg-secondary transition-colors">
             <Icon name="Send" size={16} />
