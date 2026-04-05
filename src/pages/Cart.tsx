@@ -158,9 +158,9 @@ export default function Cart() {
         cartDesigns={cartDesigns}
         totalPrice={totalPrice}
         onSuccess={() => {
-          clearCart();
-          toast.success("Заказ оформлен! Мастер скоро свяжется с вами");
+          toast.success("Заказ оформлен!");
         }}
+        onClearCart={() => clearCart()}
       />
     </main>
   );

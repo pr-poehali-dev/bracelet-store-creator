@@ -12,9 +12,10 @@ interface Props {
   cartDesigns: CustomDesign[];
   totalPrice: number;
   onSuccess: () => void;
+  onClearCart: () => void;
 }
 
-export default function CartOrderModal({ open, onClose, items, cartDesigns, totalPrice, onSuccess }: Props) {
+export default function CartOrderModal({ open, onClose, items, cartDesigns, totalPrice, onSuccess, onClearCart }: Props) {
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
@@ -34,6 +35,7 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
 
   const handleClose = () => {
     setName(""); setPhone(""); setEmail(""); setComment("");
+    if (sent) onClearCart();
     setSent(false); setOrderId(null);
     onClose();
   };
