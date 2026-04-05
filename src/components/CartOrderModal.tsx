@@ -48,7 +48,7 @@ export default function CartOrderModal({ open, onClose, items, cartDesigns, tota
         body: JSON.stringify({
           order_id: orderId,
           total_price: totalPrice,
-          return_url: window.location.href,
+          return_url: `${window.location.origin}/payment-success?order_id=${orderId}`,
         }),
       });
       const data = await res.json();
