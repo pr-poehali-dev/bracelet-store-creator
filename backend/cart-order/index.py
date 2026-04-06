@@ -117,8 +117,10 @@ def send_email_notification(order_id: int, name: str, phone: str, comment: str, 
         with smtplib.SMTP_SSL("smtp.yandex.ru", 465) as smtp:
             smtp.login(sender, smtp_password)
             smtp.sendmail(sender, recipient, msg.as_string())
+        print(f"[EMAIL OWNER OK] заказ #{order_id} отправлен на {recipient}")
         return True
-    except Exception:
+    except Exception as e:
+        print(f"[EMAIL OWNER ERROR] {e}")
         return False
 
 
