@@ -290,6 +290,66 @@ export const PRODUCTS: Product[] = [
   },
 
   {
+    id: 107,
+    name: "Серьги «Далматин и лунный свет»",
+    price: 1350,
+    category: "earrings",
+    stones: ["Далматинская яшма", "Обсидиан", "Опалит"],
+    description: "Серьги-каскад: чёрный обсидиан, далматинская яшма и нежные бусины опалита. Стильное сочетание природного камня и лунного сияния",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/08f06201-42d9-42d0-9f7a-a23655c72689.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
+    id: 108,
+    name: "Браслет «Магия флюорита»",
+    price: 1450,
+    category: "bracelet",
+    stones: ["Флюорит", "Аметист", "Хризопраз", "Тигровый глаз синий"],
+    description: "Многокамневый браслет с крупным флюоритом, хризопразом, аметистом и синим тигровым глазом — баланс, защита и внутренняя сила",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/968ce8c5-2d39-46c8-a96b-0013dde678ec.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
+    id: 109,
+    name: "Браслет «Аквамарин и малахит»",
+    price: 1680,
+    category: "bracelet",
+    stones: ["Синий тигровый глаз", "Хризопраз", "Аметист", "Лавандовый аметист"],
+    description: "Браслет с крупными бусинами синего тигрового глаза, хризопраза и аметиста с необработанным кристаллом — природная мощь в каждом камне",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/d208bc18-15aa-4cd0-a1b4-0fc8746bc81b.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
+    id: 110,
+    name: "Браслет «Дерево жизни»",
+    price: 1890,
+    category: "bracelet",
+    stones: ["Розовый кварц", "Аметист", "Авантюрин", "Лавит", "Лавовый камень"],
+    description: "Двойной браслет с подвеской «Дерево жизни»: розовый кварц, аметист, горный хрусталь и лавовый камень для ароматерапии",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/72e1109c-2f91-40b2-99e9-acbef92181f3.jpeg",
+    badge: "Хит",
+    inStock: true,
+  },
+
+  {
+    id: 111,
+    name: "Браслет «Небесный страж»",
+    price: 1750,
+    category: "bracelet",
+    stones: ["Голубой халцедон", "Лабрадорит", "Хризантемный агат", "Тибетский дзи"],
+    description: "Браслет с тибетским бусом-дзи, голубым халцедоном, лабрадоритом и агатом — мощный защитный амулет с восточной мистикой",
+    image: "https://cdn.poehali.dev/projects/c1d32ac7-1d0a-4ede-9952-f86391eda1c4/bucket/6ec48729-ceeb-4404-99ac-3d31eec3268a.jpeg",
+    badge: "Новинка",
+    inStock: true,
+  },
+
+  {
     id: 22,
     name: "Чокер «Алхимия»",
     price: 4200,
