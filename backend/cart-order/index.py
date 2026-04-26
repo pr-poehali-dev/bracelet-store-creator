@@ -247,6 +247,13 @@ def handler(event: dict, context) -> dict:
         return {"statusCode": 200, "headers": HEADERS, "body": ""}
 
     if event.get("httpMethod") == "GET":
+        # Защита паролем для admin-режима
+        admin_password = os.environ.get("ADMIN_PASSWORD", "")
+        req_headers = event.get("headers") or {}
+        provided = req_headers.get("X-Admin-Password", "") or req_headers.get("x-admin-password", "")
+        if admin_password and provided != admin_password:
+            return {"statusCode": 401, "headers": HEADERS, "body": json.dumps({"error": "Unauthorized"})}
+
         conn = psycopg2.connect(os.environ["DATABASE_URL"])
         cur = conn.cursor()
 
@@ -275,7 +282,7 @@ def handler(event: dict, context) -> dict:
             return {"statusCode": 200, "headers": HEADERS, "body": json.dumps({"ok": True, "sent": sent}, ensure_ascii=False)}
 
         cur.execute(
-            "SELECT id, name, phone, comment, items, total_price, status, created_at "
+            "SELECT id, name, phone, comment, items, total_price, status, payment_status, created_at "
             "FROM t_p51841735_bracelet_store_creat.cart_orders ORDER BY created_at DESC"
         )
         rows = cur.fetchall()
@@ -290,7 +297,8 @@ def handler(event: dict, context) -> dict:
                 "items": r[4] if isinstance(r[4], list) else json.loads(r[4] or "[]"),
                 "total_price": r[5],
                 "status": r[6],
-                "created_at": r[7].isoformat() if r[7] else None,
+                "payment_status": r[7],
+                "created_at": r[8].isoformat() if r[8] else None,
             }
             for r in rows
         ]

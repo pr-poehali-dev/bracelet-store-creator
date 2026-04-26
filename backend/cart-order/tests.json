@@ -17,15 +17,14 @@
         "total_price": 3050
       },
       "expectedStatus": 200,
-      "expectedBody": { "ok": true },
+      "expectedBody": { "ok": true, "id": 1 },
       "bodyMatcher": "partial"
     },
     {
-      "name": "GET all cart orders",
+      "name": "GET all cart orders unauthorized",
       "method": "GET",
       "path": "/",
-      "expectedStatus": 200,
-      "bodyMatcher": "partial"
+      "expectedStatus": 401
     }
   ]
 }
